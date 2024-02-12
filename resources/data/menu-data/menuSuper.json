@@ -1,0 +1,16 @@
+{
+    "menu": [
+      {
+        "url": "home",
+        "name": "Beranda",
+        "icon": "home",
+        "slug": "Beranda"
+      },
+      {
+        "url" : "surat/buatSurat",
+        "name": "Buat Surat",
+        "icon": "folder-plus",
+        "slug": "Create Surat"
+      }
+   ]
+  }

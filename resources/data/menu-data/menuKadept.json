@@ -1,0 +1,55 @@
+{
+    "menu": [
+      {
+        "url": "home",
+        "name": "Beranda",
+        "icon": "home",
+        "slug": "Beranda"
+      },
+      {
+        "name": "Arsip Surat",
+        "icon": "mail",
+        "slug": "",
+        "submenu": [
+         
+              {
+                "url" : "surat/suratMasuk",
+                "name": "Surat Masuk",
+                "icon": "folder-plus",
+                "slug": "Surat-masuk-keluar"
+              },
+              {
+                "url" : "surat/suratKeluar",
+                "name": "Surat Keluar",
+                "icon": "folder-minus",
+                "slug": "Surat-masuk-keluar"
+              }
+            ]
+         },
+          {
+            "url": "disposisi/index",
+            "name": "Lembar Disposisi",
+            "icon": "file-text",
+            "slug": "lembar-disposisi"
+          },
+         {
+          "name": "Daftar Catatan",
+          "icon": "book",
+          "slug": "Catatan",
+          "submenu":[
+            {
+              "url": "arsip/index",
+              "name": "Daftar Arsip",
+              "icon": "check-square",
+              "slug": "Daftar-Arsip"
+            },
+            {
+              "url": "ekspedisi/index",
+              "name": "Rekap Ekspedisi",
+              "icon": "book-open",
+              "slug": "Rekap-Ekspedisi"
+            }
+          ]
+        } 
+   ]
+  }
