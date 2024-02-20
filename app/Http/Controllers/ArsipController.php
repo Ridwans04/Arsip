@@ -37,6 +37,17 @@ class ArsipController extends Controller
         return view('arsip.index', compact(['arsip', 'params']));
     }
 
+    public function cari_arsip(Request $request)
+    {
+        $result = $request->search;
+        $arsip = Arsip::where('nomor_dokumen', 'like', "%{$result}%")
+                ->orWhere('tanggal_arsip', 'like', "%{$result}%")
+                ->orWhere('nama_dokumen', 'like', "%{$result}%")
+                ->orWhere('kode_arsip', 'like', "%{$result}%")
+                ->orderBy('created_at', 'desc')->get();
+        return view('arsip.index',compact(['arsip']));
+    }
+
     public function create(Request $request)
     {
         $surat = Surat::all();

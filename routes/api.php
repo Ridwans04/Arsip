@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SuratController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('get_data_arsip', [SuratController::class, 'get_data_arsip'])->name('get_data_arsip');

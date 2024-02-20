@@ -7,22 +7,16 @@
       "slug": "Beranda"
     },
     {
-      "name": "Arsip Surat",
+      "name": "Data Arsip Surat",
       "icon": "mail",
       "slug": "",
       "submenu": [
        
             {
-              "url" : "surat/suratMasuk",
-              "name": "Surat Umum Masuk",
-              "icon": "folder-plus",
-              "slug": "Surat-masuk"
-            },
-            {
-              "url" : "surat/suratKeluar",
-              "name": "Surat Umum Keluar",
+              "url" : "arsip/arsip_umum",
+              "name": "Surat Umum",
               "icon": "folder-minus",
-              "slug": "Surat-keluar"
+              "slug": "tabel_data"
             },
             {
               "url": "penting/index",

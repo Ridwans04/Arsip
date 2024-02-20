@@ -32,12 +32,12 @@ class MenuServiceProvider extends ServiceProvider
         if (empty(Auth::user()->level)) {
             $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/menuKosong.json'));
         }elseif (Auth::user()->level == 'Admin') {
-            $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/verticalMenu.json'));
+            $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/menu_admin.json'));
         }elseif (Auth::user()->level == 'Super Admin'){
-            $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/menuSuper.json'));
+            $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/super_admin.json'));
         }
         else{
-            $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/menuKadept.json'));
+            $verticalMenuJson = file_get_contents(base_path('resources/data/menu-data/menu_kadept.json'));
         }
 
             $verticalMenuData = json_decode($verticalMenuJson);

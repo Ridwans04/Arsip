@@ -13,16 +13,31 @@ use File;
 
 class SuratController extends Controller
 {
-    public function get_data_arsip(Request $request)
+    public function daftar_surat_masuk(Request $request)
     {
-        $klasifikasi = $request->klasifikasi;
-        $institusi = $request->ins;
-        $data = Surat::where('klasifikasi', $klasifikasi)->where('institusi', $institusi)->orderBy('id', 'desc')->get();
+        $surat = Surat::all();
+        $key = ['nomor_surat', 'tanggal', 'dari', 'tujuan_surat', 'perihal', 'keterangan'];
+        $params = $request->only($key);
 
-        return response()->json([
-            'data' => $data,
-            'success' => true,
-        ]);
+        $suratmasuk = Surat::where('jenis_surat', 'Masuk')->where('klasifikasi', 'UmumMasuk')->orderBy('created_at', 'desc');
+
+        $suratmasuk->when($request->method() == "POST", function($query) use($key, $suratmasuk, $params, $request){
+            $query->where(function($subquery) use($key, $params, $request) {
+                collect($key)->map(function($key) use($subquery, $params, $request) {
+                    if($request->has($key) && !empty($params[$key])){
+                        $condition = $params[$key];
+                        $subquery->OrWhere($key, 'like', "%".$condition."%");
+                    }
+                });
+            });
+        });
+
+        if (Auth::user()->username == 'Admin' || Auth::user()->username == 'Ketua PI RJ') {
+            $suratmasuk = $suratmasuk->get();
+        } else {
+            $suratmasuk = $suratmasuk->where('institusi', Auth::user()->institusi)->get();
+        }
+        return view('surat/suratMasuk', compact(['suratmasuk', 'params']));
     }
 
     public function cari_data(Request $request)
@@ -40,7 +55,33 @@ class SuratController extends Controller
             }
         }
         $suratkeluar = $query->get();
-        return view('arsip.data_arsip', compact(['suratkeluar']));
+        return view('surat.data_arsip', compact(['suratkeluar']));
+    }
+
+    public function daftar_surat_keluar(Request $request)
+    {
+        // $key = ['nomor_surat', 'tanggal', 'dari', 'tujuan_surat'];
+        // $params = $request->only($key);
+
+        $suratkeluar = Surat::where('jenis_surat', 'Keluar')->where('klasifikasi', 'UmumKeluar')->orderBy('created_at', 'desc');
+
+        // $suratkeluar->when($request->method() == 'POST', function ($query) use ($key, $suratkeluar, $params, $request) {
+        //     $query->where(function ($subquery) use ($key, $params, $request) {
+        //         collect($key)->map(function ($key) use ($subquery, $params, $request) {
+        //             if ($request->has($key) && !empty($params[$key])) {
+        //                 $condition = $params[$key];
+        //                 $subquery->OrWhere($key, 'like', '%' . $condition . '%');
+        //             }
+        //         });
+        //     });
+        // });
+
+        if (Auth::user()->username == 'Ketua PI RJ' || Auth::user()->username == 'Admin') {
+            $suratkeluar = $suratkeluar->get();
+        } else {
+            $suratkeluar = $suratkeluar->where('institusi', Auth::user()->institusi)->get();
+        }
+        return view('surat.data_arsip', compact(['suratkeluar', 'params']));
     }
 
     public function indexPenting(Request $request)
@@ -56,6 +97,17 @@ class SuratController extends Controller
         }
 
         return view('penting.index', compact('surat', 'suratPenting'));
+    }
+
+    public function create($jenis_surat, Request $request)
+    {
+        // return $jenis_surat;
+        $dokumen = Dokumen::all();
+        $surat = Surat::all();
+        $dokumenUmumMasuk = Dokumen::where('klasifikasi', 'UmumMasuk')->get();
+        $dokumenUmumKeluar = Dokumen::where('klasifikasi', 'UmumKeluar')->get();
+        $dokumenPenting = Dokumen::where('klasifikasi', 'Penting')->get();
+        return view('/surat/create', compact(['dokumen', 'surat', 'dokumenUmumMasuk', 'dokumenUmumKeluar', 'dokumenPenting', 'jenis_surat']));
     }
 
     public function store(Request $request)
@@ -109,6 +161,12 @@ class SuratController extends Controller
         } else {
             return redirect('/surat/suratMasuk')->with('success', ' Data Berhasil Disimpan');
         }
+    }
+
+    public function lihat_arsip($id)
+    {
+        $surat = Surat::find($id);
+        return view('surat.lihat_arsip', compact('surat'));
     }
 
     public function edit($id)
