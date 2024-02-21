@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('get_data_arsip', [SuratController::class, 'get_data_arsip'])->name('get_data_arsip');
+Route::get('cari_data', [SuratController::class, 'cari_data'])->name('cari_data');

@@ -40,7 +40,7 @@ Route::post('/registrasi_store', [Auth_Controller::class, 'registrasi_store'])->
 Route::prefix('arsip')->group(function () {
     // ROUTE SURAT KELUAR
     Route::view('arsip_umum', 'arsip.arsip_umum')->name('arsip_umum');
-    Route::post('cari_data', [SuratController::class, 'cari_data'])->name('cari_data');
+    // Route::post('cari_data', [SuratController::class, 'cari_data'])->name('cari_data');
 
     Route::post('store', [SuratController::class, 'store'])->name('store');
     Route::delete('{id}', [SuratController::class, 'destroy'])->name('Hapus data');

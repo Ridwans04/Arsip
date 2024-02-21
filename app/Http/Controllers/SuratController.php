@@ -25,22 +25,34 @@ class SuratController extends Controller
         ]);
     }
 
+    // public function cari_data(Request $request)
+    // {
+    //     $key = ['nomor_surat', 'tanggal', 'dari', 'tujuan_surat', 'perihal', 'keterangan'];
+    //     $value = $request->only($key);
+    //     $query = Surat::query();
+
+    //     // Iterate over each key and apply the search condition
+    //     foreach ($key as $k) {
+    //         // Check if the key exists in the $value array
+    //         if (isset($value[$k])) {
+    //             // Apply where condition with LIKE operator
+    //             $query->where($k, 'LIKE', '%' . $value[$k] . '%');
+    //         }
+    //     }
+    //     $suratkeluar = $query->get();
+    //     return view('arsip.arsip_umum', compact(['suratkeluar']));
+    // }
+
     public function cari_data(Request $request)
     {
-        $key = ['nomor_surat', 'tanggal', 'dari', 'tujuan_surat', 'perihal', 'keterangan'];
-        $value = $request->only($key);
-        $query = Surat::query();
+        $key = ['nomor_surat', 'tanggal'];
+        $ins = $request->institusi;
+        $name = $request->name;
+        $value = $request->input('value');
+        $data = Surat::where($name, 'LIKE', '%'. $value .'%')->where('institusi', $ins);
 
-        // Iterate over each key and apply the search condition
-        foreach ($key as $k) {
-            // Check if the key exists in the $value array
-            if (isset($value[$k])) {
-                // Apply where condition with LIKE operator
-                $query->where($k, 'LIKE', '%' . $value[$k] . '%');
-            }
-        }
-        $suratkeluar = $query->get();
-        return view('arsip.data_arsip', compact(['suratkeluar']));
+        $surat = $data->get();
+        return response()->json(['data' => $surat, 'success' => true]);
     }
 
     public function indexPenting(Request $request)
