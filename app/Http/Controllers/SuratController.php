@@ -13,7 +13,7 @@ use File;
 
 class SuratController extends Controller
 {
-    public function get_data_arsip(Request $request)
+    public function get_arsip_umum(Request $request)
     {
         $klasifikasi = $request->klasifikasi;
         $institusi = $request->ins;
@@ -25,27 +25,19 @@ class SuratController extends Controller
         ]);
     }
 
-    // public function cari_data(Request $request)
-    // {
-    //     $key = ['nomor_surat', 'tanggal', 'dari', 'tujuan_surat', 'perihal', 'keterangan'];
-    //     $value = $request->only($key);
-    //     $query = Surat::query();
+    public function get_arsip_penting(Request $request)
+    {
+        $institusi = $request->ins;
+        $data = Surat::where('klasifikasi', 'Penting')->where('institusi', $institusi)->orderBy('id', 'desc')->get();
 
-    //     // Iterate over each key and apply the search condition
-    //     foreach ($key as $k) {
-    //         // Check if the key exists in the $value array
-    //         if (isset($value[$k])) {
-    //             // Apply where condition with LIKE operator
-    //             $query->where($k, 'LIKE', '%' . $value[$k] . '%');
-    //         }
-    //     }
-    //     $suratkeluar = $query->get();
-    //     return view('arsip.arsip_umum', compact(['suratkeluar']));
-    // }
+        return response()->json([
+            'data' => $data,
+            'success' => true,
+        ]);
+    }
 
     public function cari_data(Request $request)
     {
-        $key = ['nomor_surat', 'tanggal'];
         $ins = $request->institusi;
         $name = $request->name;
         $value = $request->input('value');
@@ -55,20 +47,7 @@ class SuratController extends Controller
         return response()->json(['data' => $surat, 'success' => true]);
     }
 
-    public function indexPenting(Request $request)
-    {
-        $surat = Surat::find($request->klasifikasi);
-        if (Auth::user()->username == 'Ketua PI RJ' || Auth::user()->username == 'Admin') {
-            $suratPenting = Surat::where('klasifikasi', 'Penting')->orderBy('created_at', 'desc')->get();
-        } else {
-            $suratPenting = Surat::where('klasifikasi', 'Penting')
-                ->where('institusi', Auth::user()->institusi)
-                ->orderBy('created_at', 'desc')
-                ->get();
-        }
-
-        return view('penting.index', compact('surat', 'suratPenting'));
-    }
+    
 
     public function store(Request $request)
     {

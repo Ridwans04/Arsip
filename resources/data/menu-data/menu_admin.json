@@ -16,13 +16,13 @@
               "url" : "arsip/arsip_umum",
               "name": "Surat Umum",
               "icon": "folder-minus",
-              "slug": "tabel_data"
+              "slug": "arsip_umum"
             },
             {
-              "url": "penting/index",
+              "url": "arsip/arsip_penting",
               "name": "Surat Penting",
               "icon": "codepen",
-              "slug":""
+              "slug":"arsip_penting"
             }
           ]
        },
