@@ -302,33 +302,33 @@
         }
 
         function cari_data(name, institusi) {
-            var value = $('#'+ name).val();
+            var value = $('#' + name).val();
             console.log(value);
-            if(value != ''){
+            if (value != '') {
                 $.ajax({
-                type: "GET",
-                url: `{{ route('cari_data') }}?name=${name}&value=${value}&institusi=${institusi}`,
-                beforeSend: function() {
-                    $('#arsip').block({
-                        message: '<div class="loader-box"><div class="loader-1"></div></div>',
-                        css: {
-                            backgroundColor: 'transparent',
-                            border: '0'
-                        },
-                        overlayCSS: {
-                            backgroundColor: '#fff',
-                            opacity: 0.8
-                        }
-                    });
-                },
-                dataType: "JSON",
-                success: function(response) {
-                    var html_row = "";
-                    var menu = "";
-                    var date = new Date();
-                    $.each(response.data, function(key, val) {
-                        menu =
-                            `<div class="btn-group">
+                    type: "GET",
+                    url: `{{ route('cari_data') }}?name=${name}&value=${value}&institusi=${institusi}`,
+                    beforeSend: function() {
+                        $('#arsip').block({
+                            message: '<div class="loader-box"><div class="loader-1"></div></div>',
+                            css: {
+                                backgroundColor: 'transparent',
+                                border: '0'
+                            },
+                            overlayCSS: {
+                                backgroundColor: '#fff',
+                                opacity: 0.8
+                            }
+                        });
+                    },
+                    dataType: "JSON",
+                    success: function(response) {
+                        var html_row = "";
+                        var menu = "";
+                        var date = new Date();
+                        $.each(response.data, function(key, val) {
+                            menu =
+                                `<div class="btn-group">
                                     <button class="btn btn-success dropdown-toggle" type="button"
                                         id="dropdownMenuButton2" data-bs-toggle="dropdown"
                                         aria-expanded="false"><i data-feather="list"></i>
@@ -366,7 +366,7 @@
                                 </div>
                             </td>
                             `
-                        html_row += `<tr>
+                            html_row += `<tr>
                             <td>${val.nomor_surat}</td>
                             <td style="white-space:nowrap">${val.nama_dokumen}</td>
                             <td>${val.tanggal}</td>
@@ -374,8 +374,8 @@
                             <td>${val.tujuan_surat}</td>
                             <td>${menu}</td>
                         </tr>`;
-                    });
-                    var html_content = `
+                        });
+                        var html_content = `
                 <thead>
                     <tr>
                         <th>Nomor Surat</th>
@@ -389,23 +389,23 @@
                 <tbody>
                     ${html_row}
                 </tbody>`;
-                    $('#arsip').html(html_content);
-                    if ($.fn.DataTable.isDataTable('#arsip')) {
-                        $('#arsip').DataTable().destroy();
-                    }
-                    $('#arsip').DataTable({
-                        searching: false,
-                        sorting: false,
-                    });
-                    $('#arsip').unblock();
-                    feather.replace({
-                        width: 14,
-                        height: 14
-                    });
-                    $('#'.name).val();
-                },
-                error: function(error) {
-                    var html_content = `
+                        $('#arsip').html(html_content);
+                        if ($.fn.DataTable.isDataTable('#arsip')) {
+                            $('#arsip').DataTable().destroy();
+                        }
+                        $('#arsip').DataTable({
+                            searching: false,
+                            sorting: false,
+                        });
+                        $('#arsip').unblock();
+                        feather.replace({
+                            width: 14,
+                            height: 14
+                        });
+                        $('#'.name).val();
+                    },
+                    error: function(error) {
+                        var html_content = `
                     <thead>
                         <tr>
                             <th>Nomor Surat</th>
@@ -418,16 +418,18 @@
                     </thead>
                     <tbody>
                     </tbody>`;
-                    $('#arsip').html(html_content);
-                    $('#arsip').DataTable();
-                    $('#arsip').unblock();
-                    Swal.fire(
-                        'Error',
-                        '',
-                        'error'
-                    )
-                }
-            });
+                        $('#arsip').html(html_content);
+                        $('#arsip').DataTable();
+                        $('#arsip').unblock();
+                        Swal.fire(
+                            'Error',
+                            '',
+                            'error'
+                        )
+                    }
+                });
+            } else {
+                get_arsip_umum(institusi);
             }
         }
 
