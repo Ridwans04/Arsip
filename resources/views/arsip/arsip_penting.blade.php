@@ -17,12 +17,16 @@
                             @endphp
 
                             <div class="col-md-3" style="margin-left: 7px">
-                                <button class="btn btn-outline-success" onclick="get_arsip_penting('{{$institusi}}')">Refresh tabel</button>
+                                <button class="btn btn-outline-success"
+                                    onclick="get_arsip_penting('{{ $institusi }}')">Refresh tabel</button>
                             </div>
                             <div class="mb-1">
-                                <input type="text" id="nomor_surat" class="form-control"
-                                    oninput="cari_data('nomor_surat','{{ $institusi }}')"
-                                    placeholder="🔎 Cari Data" name="nomor_surat"/>
+                                <div class="input-group input-group-merge">
+                                    <span class="input-group-text cursor-pointer" style="border: 2px solid #7e7e81;"><i data-feather="search"></i></span>
+                                    <input type="text" id="nomor_surat" class="form-control"
+                                        oninput="cari_data('nomor_surat','{{ $institusi }}')" placeholder="    Cari Data"
+                                        name="nomor_surat" />
+                                </div>
                             </div>
                         </div>
                     @endif
