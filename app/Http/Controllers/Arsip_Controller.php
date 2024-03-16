@@ -11,7 +11,7 @@ use App\Models\Surat;
 use Illuminate\Support\Facades\Auth;
 use File;
 
-class SuratController extends Controller
+class Arsip_Controller extends Controller
 {
     public function get_arsip_umum(Request $request)
     {

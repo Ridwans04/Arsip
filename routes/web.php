@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Arsip_Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaterkitController;
 use App\Http\Controllers\LanguageController;
@@ -41,23 +42,20 @@ Route::prefix('arsip')->group(function () {
     // ROUTE SURAT KELUAR
     Route::view('arsip_umum', 'arsip.arsip_umum')->name('arsip_umum');
     Route::view('arsip_penting', 'arsip.arsip_penting')->name('arsip_penting');
-    // Route::post('cari_data', [SuratController::class, 'cari_data'])->name('cari_data');
-
-    Route::post('store', [SuratController::class, 'store'])->name('store');
-    Route::delete('{id}', [SuratController::class, 'destroy'])->name('Hapus data');
+    Route::delete('{id}', [Arsip_Controller::class, 'destroy'])->name('Hapus data');
     Route::get('lihat_arsip/{id}', function($id){
         $surat = Surat::find($id);
         return view('surat.lihat_arsip', compact('surat'));
     })->name('lihat_arsip');
-    Route::get('{id}/edit', [SuratController::class, 'edit'])->name('Edit Surat');
-    Route::put('{id}', [SuratController::class, 'update'])->name('Update Surat');
-    Route::get('buatSurat', [SuratController::class, 'buat'])->name('Buat Surat');
-    Route::post('shop', [SuratController::class, 'shop'])->name('shop');
+    Route::get('{id}/edit', [Arsip_Controller::class, 'edit'])->name('Edit Surat');
+    Route::put('{id}', [Arsip_Controller::class, 'update'])->name('Update Surat');
+    Route::get('buatSurat', [Arsip_Controller::class, 'buat'])->name('Buat Surat');
+    Route::post('shop', [Arsip_Controller::class, 'shop'])->name('shop');
 
 });
 
 // Route for Tabel Surat Penting
-Route::get('penting/index', [SuratController::class, 'indexPenting'])->name('Tabel Surat Penting');
+Route::get('penting/index', [Arsip_Controller::class, 'indexPenting'])->name('Tabel Surat Penting');
 
 // Route for lembar disposisi
 Route::get('disposisi/index', [DisposisiController::class, 'index'])->name('Data Lembar Disposisi');

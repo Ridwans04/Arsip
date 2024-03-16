@@ -16,14 +16,21 @@
                                 $institusi = Auth::user()->institusi;
                             @endphp
 
-                            <div class="col-md-3" style="margin-left: 7px">
-                                <select name="jenis" id="jenis_surat" class="hide-search form-select"
-                                    onchange="get_arsip_umum('{{ $institusi }}')">
-                                    <option>Pilih Jenis Surat</option>
-                                    <option value="UmumKeluar">Surat Umum Eksternal</option>
-                                    <option value="UmumMasuk">Surat Umum Internal</option>
-                                </select>
+                            <div class="btn-group">
+                                <div class="col-md-10" style="margin-left: 7px">
+                                    <select name="klasifikasi" id="klasifikasi" class="hide-search form-select"
+                                        onchange="get_arsip_umum('{{ $institusi }}')">
+                                        <option>Pilih Klasifikasi Surat</option>
+                                        <option value="UmumKeluar">Surat Keluar</option>
+                                        <option value="UmumMasuk">Surat Masuk</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6" style="margin-left: 7px">
+                                    <select name="nama_surat" id="nama" class="hide-search form-select">
+                                    </select>
+                                </div>
                             </div>
+
                         </div>
                     @endif
                     <div class="card-body mt-2">
