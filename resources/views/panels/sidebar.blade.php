@@ -4,35 +4,35 @@ $configData = Helper::applClasses();
 <div
   class="main-menu menu-fixed {{ $configData['theme'] === 'dark' || $configData['theme'] === 'semi-dark' ? 'menu-dark' : 'menu-light' }} menu-accordion menu-shadow"
   data-scroll-to-active="true">
-  <div class="navbar-header">
+  <div class="navbar-header" style="background: #f4f6f7 ">
     <ul class="nav navbar-nav flex-row">
-      <li class="nav-item ">
-        <a class="navbar-brand" href="{{ url('/') }}">
+      <li class="nav-item me-auto">
+        <a class="navbar-brand" href="{{ url('beranda') }}">
           <span class="brand-logo">
-          <!-- <img src="images/logo/logo.png" class="img-fluid" alt="Brand logo"> -->
-          <img src="{{asset('images/logo/logo.png')}}" class="img-fluid " alt="Brand logo">
+            <!-- <img src="images/logo/logo.png" class="img-fluid" alt="Brand logo"> -->
+            <img src="{{asset('images/logo/logo.png')}}" class="img-fluid "  alt="Brand logo">
           </span>
-          <h2 class="brand-text">Arsip Dokumen</h2>
+            <h2 class="brand-text" style="padding-left: 0.8rem">Arsip RJ</h2>
         </a>
       </li>
-      <li class="nav-item nav-toggle">
-        <a class="nav-link modern-nav-toggle me-auto" data-toggle="collapse">
-          <i class="d-block d-xl-none text-primary toggle-icon font-small-3" data-feather="x"></i>
-          <i class="d-none d-xl-block collapse-toggle-icon font-small-3 text-primary" data-feather="disc"
+      <li class="nav-item nav-toggle" style="margin: -2px">
+        <a class="nav-link modern-nav-toggle pe-0" data-toggle="collapse">
+          <i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i>
+          <i class="d-none d-xl-block collapse-toggle-icon font-medium-4 text-primary" data-feather="disc"
             data-ticon="disc"></i>
         </a>
       </li>
     </ul>
   </div>
-  <div class="shadow-bottom "></div>
-  <div class="main-menu-content pe-auto">
-    <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+  <div class="shadow-bottom"></div>
+  <div class="main-menu-content" style="background: #f4f6f7 ">
+    <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" style="background: #f4f6f7 ">
       {{-- Foreach menu item starts --}}
       @if (isset($menuData[0]))
         @foreach ($menuData[0]->menu as $menu)
           @if (isset($menu->navheader))
             <li class="navigation-header">
-              <span>{{ __('locale.' . $menu->navheader) }}</span>
+              <span>{{ __($menu->navheader) }}</span>
               <i data-feather="more-horizontal"></i>
             </li>
           @else
@@ -50,7 +50,7 @@ $configData = Helper::applClasses();
                 <i data-feather="{{ $menu->icon }}"></i>
                 <span class="menu-title text-truncate">{{ __($menu->name) }}</span>
                 @if (isset($menu->badge))
-                  <?php $badgeClasses = 'badge rounded-pill badge-light-primary ms-auto '; ?>
+                  <?php $badgeClasses = 'badge rounded-pill badge-light-primary ms-auto me-1'; ?>
                   <span
                     class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{ $menu->badge }}</span>
                 @endif

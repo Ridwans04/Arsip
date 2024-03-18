@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Arsip_Controller;
 use App\Http\Controllers\SuratController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('get_arsip_umum', [SuratController::class, 'get_arsip_umum'])->name('get_arsip_umum');
-Route::get('get_arsip_penting', [SuratController::class, 'get_arsip_penting'])->name('get_arsip_penting');
-Route::get('cari_data', [SuratController::class, 'cari_data'])->name('cari_data');
+Route::get('get_arsip_umum', [Arsip_Controller::class, 'get_arsip_umum'])->name('get_arsip_umum');
+Route::get('get_arsip_penting', [Arsip_Controller::class, 'get_arsip_penting'])->name('get_arsip_penting');
+Route::get('cari_data', [Arsip_Controller::class, 'cari_data'])->name('cari_data');

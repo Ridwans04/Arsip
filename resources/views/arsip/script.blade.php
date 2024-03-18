@@ -45,6 +45,8 @@
     <script src="{{ asset(mix('js/scripts/forms/pickers/form-pickers.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/extensions/ext-component-sweet-alerts.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/extensions/ext-component-toastr.js')) }}"></script>
+    <script src="{{ asset('js/scripts/tool/block-ui.js') }}"></script>
+    <script src="https://malsup.github.io/jquery.blockUI.js"></script>
     <script>
         $(document).ready(function() {
 
@@ -59,11 +61,41 @@
 
         });
 
+        function klasifikasi_surat() {
+            var pilih_klasifikasi = document.getElementById("klasifikasi").value;
+            pilih_klasifikasi_surat(pilih_klasifikasi);
+        }
+
+        const pilih_klasifikasi_surat = function(pilih_klasifikasi) {
+            $('#nama_surat option').not(':first').remove();
+
+            $.ajax({
+                method: "get",
+                url: "/arsip/pilih_klasifikasi_surat/?pilih_klasifikasi=" + pilih_klasifikasi,
+                dataType: 'JSON',
+                success: function(response) {
+                    $('#nama_surat').empty().append($('<option>', {
+                        value: "Pilih Nama Surat",
+                        text: "Pilih Nama Surat",
+                        selected: true,
+                        disabled: true
+                    }));
+
+                    $.each(response.data, function(i, item) {
+                        $('#nama_surat').append($('<option>', {
+                            value: `${item.id}`,
+                            text: item.nama_dokumen
+                        }));
+                    });
+                }
+            });
+        };
+
         function get_arsip_umum(institusi) {
-            const klasifikasi = $('#jenis_surat').val();
+            const id_surat = $('#nama_surat').val();
             $.ajax({
                 type: "GET",
-                url: `{{ route('get_arsip_umum') }}?klasifikasi=${klasifikasi}&ins=${institusi}`,
+                url: `{{ route('get_arsip_umum') }}?id_surat=${id_surat}&ins=${institusi}`,
                 beforeSend: function() {
                     $('#arsip').block({
                         message: '<div class="loader-box"><div class="loader-1"></div></div>',
@@ -109,15 +141,6 @@
                                                 <i data-feather="trash"></i> Hapus
                                             </button>
                                         </form>
-                                        <a href="../ekspedisi/${val.id}/suratEkspedisi"
-                                            target="_blank" class="btn btn-icon btn-info w-100 mb-1"><i
-                                            data-feather="book-open"></i>
-                                            Ekspedisi</a>
-                                        <a href="../arsip/${val.id}/suratArsip"
-                                            target="_blank"
-                                            class="btn btn-icon btn-info w-100 text-start"><i
-                                            data-feather="folder-plus"></i> Catatan
-                                        </a>
                                     </div>
                                 </div>
                             </td>
@@ -145,37 +168,24 @@
                 <tbody>
                     ${html_row}
                 </tbody>`;
-                    $('#arsip').html(html_content);
                     if ($.fn.DataTable.isDataTable('#arsip')) {
                         $('#arsip').DataTable().destroy();
                     }
-                    $('#arsip').DataTable({
+                    $('#arsip').unblock().html(html_content).DataTable({
                         searching: false,
                         sorting: false,
-                    });
-                    $('#arsip').unblock();
-                    feather.replace({
-                        width: 14,
-                        height: 14
+                        drawCallback: function() {
+                            $('#arsip [data-feather]').each(function() {
+                                var icon = $(this).data('feather');
+                                $(this).empty().append(feather.icons[icon].toSvg({
+                                    width: 14,
+                                    height: 14
+                                }));
+                            });
+                        }
                     });
                 },
                 error: function(error) {
-                    var html_content = `
-                    <thead>
-                        <tr>
-                            <th>Nomor Surat</th>
-                            <th>Nama Surat</th>
-                            <th>Tanggal</th>
-                            <th>Dari</th>
-                            <th>Tujuan</th>
-                            <th>Menu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>`;
-                    $('#arsip').html(html_content);
-                    $('#arsip').DataTable();
-                    $('#arsip').unblock();
                     Swal.fire(
                         'Error',
                         '',

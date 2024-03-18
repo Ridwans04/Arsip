@@ -7,6 +7,10 @@
       "slug": "Beranda"
     },
     {
+      "navheader": "Penyimpanan Arsip",
+      "slug": ""
+    },
+    {
       "name": "Data Arsip Surat",
       "icon": "mail",
       "slug": "",

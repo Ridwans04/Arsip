@@ -17,16 +17,18 @@
                             @endphp
 
                             <div class="btn-group">
-                                <div class="col-md-10" style="margin-left: 7px">
+                                <div class="col-md-8" style="margin-left: 7px">
                                     <select name="klasifikasi" id="klasifikasi" class="hide-search form-select"
-                                        onchange="get_arsip_umum('{{ $institusi }}')">
+                                        onchange="klasifikasi_surat()">
                                         <option>Pilih Klasifikasi Surat</option>
-                                        <option value="UmumKeluar">Surat Keluar</option>
-                                        <option value="UmumMasuk">Surat Masuk</option>
+                                        <option value="Keluar">Surat Keluar</option>
+                                        <option value="Masuk">Surat Masuk</option>
                                     </select>
                                 </div>
-                                <div class="col-md-6" style="margin-left: 7px">
-                                    <select name="nama_surat" id="nama" class="hide-search form-select">
+                                <div class="col-md-10" style="margin-left: 7px">
+                                    <select name="nama_surat" id="nama_surat" class="hide-search form-select"
+                                    onchange="get_arsip_umum('{{$institusi}}')">
+                                        <option value="">Pilih Nama Surat</option>
                                     </select>
                                 </div>
                             </div>

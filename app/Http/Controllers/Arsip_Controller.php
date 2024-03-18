@@ -13,11 +13,21 @@ use File;
 
 class Arsip_Controller extends Controller
 {
+    public function pilih_klasifikasi_surat(Request $request)
+    {
+        $jenis = $request->pilih_klasifikasi;
+        $data = Dokumen::where('klasifikasi', $jenis)->orderBy('id', 'desc')->get();
+        return response()->json([
+            'data' => $data,
+            'success' => true,
+        ]);
+    }
+
     public function get_arsip_umum(Request $request)
     {
-        $klasifikasi = $request->klasifikasi;
+        $id_surat = $request->id_surat;
         $institusi = $request->ins;
-        $data = Surat::where('klasifikasi', $klasifikasi)->where('institusi', $institusi)->orderBy('id', 'desc')->get();
+        $data = Surat::where('dokumen_id', $id_surat)->where('institusi', $institusi)->orderBy('id', 'desc')->get();
 
         return response()->json([
             'data' => $data,

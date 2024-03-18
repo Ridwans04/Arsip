@@ -42,11 +42,13 @@ Route::prefix('arsip')->group(function () {
     // ROUTE SURAT KELUAR
     Route::view('arsip_umum', 'arsip.arsip_umum')->name('arsip_umum');
     Route::view('arsip_penting', 'arsip.arsip_penting')->name('arsip_penting');
-    Route::delete('{id}', [Arsip_Controller::class, 'destroy'])->name('Hapus data');
     Route::get('lihat_arsip/{id}', function($id){
         $surat = Surat::find($id);
         return view('surat.lihat_arsip', compact('surat'));
     })->name('lihat_arsip');
+    Route::get('pilih_klasifikasi_surat', [Arsip_Controller::class, 'pilih_klasifikasi_surat'])->name('pilih_klasifikasi_surat');
+
+    Route::delete('{id}', [Arsip_Controller::class, 'destroy'])->name('Hapus data');
     Route::get('{id}/edit', [Arsip_Controller::class, 'edit'])->name('Edit Surat');
     Route::put('{id}', [Arsip_Controller::class, 'update'])->name('Update Surat');
     Route::get('buatSurat', [Arsip_Controller::class, 'buat'])->name('Buat Surat');
