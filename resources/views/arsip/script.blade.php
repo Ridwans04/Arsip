@@ -46,6 +46,7 @@
     <script src="{{ asset(mix('js/scripts/extensions/ext-component-sweet-alerts.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/extensions/ext-component-toastr.js')) }}"></script>
     <script src="{{ asset('js/scripts/tool/block-ui.js') }}"></script>
+    <script src="{{ asset('js/scripts/tool/sweet-alert.js') }}"></script>
     <script src="https://malsup.github.io/jquery.blockUI.js"></script>
     <script>
         $(document).ready(function() {
@@ -187,7 +188,7 @@
                 },
                 error: function(error) {
                     Swal.fire(
-                        'Error',
+                        'Kesalahan Data',
                         '',
                         'error'
                     )
@@ -226,7 +227,7 @@
                                     </button>
                                     <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
                                         <button
-                                            onclick="window.location.href='/surat/${val.id}/edit'"
+                                            onclick="edit_data('${val.nama}')"
                                             type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
                                             <i data-feather="edit"></i>
                                             Edit</button>
@@ -313,7 +314,6 @@
 
         function cari_data(name, institusi) {
             var value = $('#' + name).val();
-            console.log(value);
             if (value != '') {
                 $.ajax({
                     type: "GET",
@@ -335,7 +335,6 @@
                     success: function(response) {
                         var html_row = "";
                         var menu = "";
-                        var date = new Date();
                         $.each(response.data, function(key, val) {
                             menu =
                                 `<div class="btn-group">
@@ -363,15 +362,6 @@
                                                 <i data-feather="trash"></i> Hapus
                                             </button>
                                         </form>
-                                        <a href="../ekspedisi/${val.id}/suratEkspedisi"
-                                            target="_blank" class="btn btn-icon btn-info w-100 mb-1"><i
-                                            data-feather="book-open"></i>
-                                            Ekspedisi</a>
-                                        <a href="../arsip/${val.id}/suratArsip"
-                                            target="_blank"
-                                            class="btn btn-icon btn-info w-100 text-start"><i
-                                            data-feather="folder-plus"></i> Catatan
-                                        </a>
                                     </div>
                                 </div>
                             </td>
@@ -399,41 +389,28 @@
                 <tbody>
                     ${html_row}
                 </tbody>`;
-                        $('#arsip').html(html_content);
                         if ($.fn.DataTable.isDataTable('#arsip')) {
                             $('#arsip').DataTable().destroy();
                         }
-                        $('#arsip').DataTable({
+                        $('#arsip').unblock().html(html_content).DataTable({
                             searching: false,
                             sorting: false,
-                        });
-                        $('#arsip').unblock();
-                        feather.replace({
-                            width: 14,
-                            height: 14
+                            drawCallback: function() {
+                                $('#arsip [data-feather]').each(function() {
+                                    var icon = $(this).data('feather');
+                                    $(this).empty().append(feather.icons[icon].toSvg({
+                                        width: 14,
+                                        height: 14
+                                    }));
+                                });
+                            }
                         });
                         $('#'.name).val();
                     },
                     error: function(error) {
-                        var html_content = `
-                    <thead>
-                        <tr>
-                            <th>Nomor Surat</th>
-                            <th>Nama Surat</th>
-                            <th>Tanggal</th>
-                            <th>Dari</th>
-                            <th>Tujuan</th>
-                            <th>Menu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>`;
-                        $('#arsip').html(html_content);
-                        $('#arsip').DataTable();
-                        $('#arsip').unblock();
                         Swal.fire(
                             'Error',
-                            '',
+                            'Data Tidak Ditemukan',
                             'error'
                         )
                     }
