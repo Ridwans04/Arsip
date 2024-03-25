@@ -1,7 +1,7 @@
 @extends('layouts/contentLayoutMaster')
 
-@include('arsip.script', ['section' => 'vendor-style'])
-@include('arsip.script', ['section' => 'page-style'])
+@include('arsip_lama.script', ['section' => 'vendor-style'])
+@include('arsip_lama.script', ['section' => 'page-style'])
 
 @section('title', 'Tabel Arsip Surat')
 
@@ -23,11 +23,12 @@
                                         <option>Pilih Klasifikasi Surat</option>
                                         <option value="Keluar">Surat Keluar</option>
                                         <option value="Masuk">Surat Masuk</option>
+                                        <option value="Penting">Surat Penting</option>
                                     </select>
                                 </div>
                                 <div class="col-md-10" style="margin-left: 7px">
                                     <select name="nama_surat" id="nama_surat" class="hide-search form-select"
-                                        onchange="get_data_arsip('{{ $institusi }}')">
+                                        onchange="get_arsip_lama('{{ $institusi }}')">
                                         <option value="">Pilih Nama Surat</option>
                                     </select>
                                 </div>
@@ -83,54 +84,11 @@
                         <table id="arsip" class="dt-multilingual table">
                         </table>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#editUser">Show</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
-                            <div class="modal-content">
-                                <div class="modal-header bg-transparent">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body pb-5 px-sm-5 pt-50">
-                                    <div class="text-center mb-2">
-                                        <h1 class="mb-1">Detail dan Edit Data Arsip</h1>
-                                        <p>Update data arsip jika diperlukan</p>
-                                    </div>
-                                    <form id="editUserForm" class="row gy-1 pt-75" onsubmit="return false">
-                                        <div class="col-12 col-md-6">
-                                            <label class="form-label" for="modalEditUserFirstName">First Name</label>
-                                            <input type="text" id="nama_surat" name="modalEditUserFirstName"
-                                                class="form-control" data-msg="Please enter your first name" />
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <label class="form-label" for="modalEditUserFirstName">First Name</label>
-                                            <input type="text" id="nama_surat" name="modalEditUserFirstName"
-                                                class="form-control" data-msg="Please enter your first name" />
-                                        </div>
-                                        <div class="col-12 text-center mt-2 pt-50">
-                                            <button type="submit" class="btn btn-primary me-1">Submit</button>
-                                            <button type="reset" class="btn btn-outline-secondary"
-                                                data-bs-dismiss="modal" aria-label="Close">
-                                                Reset
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </section>
 @endsection
 
-@include('arsip.script', ['section' => 'vendor-script'])
-@include('arsip.script', ['section' => 'page-script'])
+@include('arsip_lama.script', ['section' => 'vendor-script'])
+@include('arsip_lama.script', ['section' => 'page-script'])

@@ -20,7 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('get_arsip_umum', [Arsip_Controller::class, 'get_arsip_umum'])->name('get_arsip_umum');
-Route::get('get_arsip_penting', [Arsip_Controller::class, 'get_arsip_penting'])->name('get_arsip_penting');
+Route::get('pilih_klasifikasi_surat', [Arsip_Controller::class, 'pilih_klasifikasi_surat'])->name('pilih_klasifikasi_surat');
+Route::get('get_data_arsip', [Arsip_Controller::class, 'get_data_arsip'])->name('get_data_arsip');
+Route::get('get_arsip_lama', [Arsip_Controller::class, 'get_arsip_lama'])->name('get_arsip_lama');
 Route::get('cari_data_umum', [Arsip_Controller::class, 'cari_data_umum'])->name('cari_data_umum');
 Route::get('cari_data_penting', [Arsip_Controller::class, 'cari_data_penting'])->name('cari_data_penting');

@@ -54,6 +54,24 @@
             "slug": "Rekap-Ekspedisi"
           }
         ]
-      } 
+      },
+      {
+        "navheader": "DATA ARSIP LAMA",
+        "slug": ""
+      },
+      {
+        "name": "Tabel Data",
+        "icon": "database",
+        "slug": "",
+        "submenu": [
+         
+              {
+                "url" : "arsip/arsip_lama",
+                "name": "Arsip Lama",
+                "icon": "folder-minus",
+                "slug": "arsip_lama"
+              }
+            ]
+         }
  ]
 }

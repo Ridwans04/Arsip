@@ -3,7 +3,7 @@
 @include('arsip.script', ['section' => 'vendor-style'])
 @include('arsip.script', ['section' => 'page-style'])
 
-@section('title', 'Tabel Arsip Surat')
+@section('title', 'Data Arsip Surat Penting')
 
 @section('content')
     <section id="complex-header-datatable">
@@ -15,10 +15,14 @@
                             @php
                                 $institusi = Auth::user()->institusi;
                             @endphp
-
                             <div class="col-md-3" style="margin-left: 7px">
-                                <button class="btn btn-outline-success"
-                                    onclick="get_arsip_penting('{{ $institusi }}')">Refresh tabel</button>
+                                    <select name="nama_surat" id="nama_surat" class="hide-search form-select"
+                                        onchange="get_data_arsip('{{$institusi}}')">
+                                        <option>Pilih Surat</option>
+                                        @foreach($list_surat as $ls)
+                                        <option value="{{$ls->nama_surat}}">{{$ls->nama_surat}}</option>
+                                        @endforeach
+                                    </select>
                             </div>
                             <div class="mb-1">
                                 <div class="input-group input-group-merge">
@@ -32,7 +36,7 @@
                     @endif
                     <div class="card-body mt-2">
                         <div class="card-datatable" style="margin: 7px;">
-                            <table id="arsip_penting" class="dt-multilingual table">
+                            <table id="arsip" class="dt-multilingual table">
                             </table>
                         </div>
                     </div>

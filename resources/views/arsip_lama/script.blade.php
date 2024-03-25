@@ -81,12 +81,12 @@
             });
         };
 
-        // MENGAMBIL DATA ARSIP UMUM & PENTING
-        function get_data_arsip(institusi) {
+        // MENGAMBIL DATA ARSIP UMUM
+        function get_arsip_lama(institusi) {
             const nama_surat = $('#nama_surat').val();
             $.ajax({
                 type: "GET",
-                url: `{{ route('get_data_arsip') }}?nama_surat=${nama_surat}&ins=${institusi}`,
+                url: `{{ route('get_arsip_lama') }}?nama_surat=${nama_surat}&ins=${institusi}`,
                 beforeSend: function() {
                     $('#arsip').block({
                         message: '<div class="loader-box"><div class="loader-1"></div></div>',
@@ -118,8 +118,8 @@
                                             type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
                                             <i data-feather="edit"></i>
                                             Edit</button>
-                                        <a href="arsip/lihat_arsip/${val.id}" target="_blank"
-                                            class="btn btn-icon btn-info w-100 mb-1 text-start"><i
+                                        <a href="lihat_arsip/${val.id}" target="_blank"
+                                            class="btn btn-icon btn-success w-100 mb-1 text-start"><i
                                                 data-feather="file-plus"></i>
                                             Lihat</a>
                                         <form id="hapus_${val.id}"
@@ -140,7 +140,6 @@
                             <td>${val.nomor_surat}</td>
                             <td style="white-space:nowrap">${val.nama_surat}</td>
                             <td>${val.tanggal}</td>
-                            <td>${val.dari}</td>
                             <td>${val.tujuan_surat}</td>
                             <td>${menu}</td>
                         </tr>`;
@@ -151,7 +150,6 @@
                         <th>Nomor Surat</th>
                         <th>Nama Surat</th>
                         <th>Tanggal</th>
-                        <th>Dari</th>
                         <th>Tujuan</th>
                         <th>Menu</th>
                     </tr>
@@ -184,115 +182,6 @@
                     )
                 }
             });
-        }
-
-        // CARI DATA ARSIP UMUM
-        function cari_data_umum(name, institusi) {
-            var value = $('#' + name).val();
-            if (value != '') {
-                $.ajax({
-                    type: "GET",
-                    url: `{{ route('cari_data_umum') }}?name=${name}&value=${value}&institusi=${institusi}`,
-                    beforeSend: function() {
-                        $('#arsip').block({
-                            message: '<div class="loader-box"><div class="loader-1"></div></div>',
-                            css: {
-                                backgroundColor: 'transparent',
-                                border: '0'
-                            },
-                            overlayCSS: {
-                                backgroundColor: '#fff',
-                                opacity: 0.8
-                            }
-                        });
-                    },
-                    dataType: "JSON",
-                    success: function(response) {
-                        var html_row = "";
-                        var menu = "";
-                        $.each(response.data, function(key, val) {
-                            menu =
-                                `<div class="btn-group">
-                                    <button class="btn btn-success dropdown-toggle" type="button"
-                                        id="dropdownMenuButton2" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i data-feather="list"></i>
-                                    </button>
-                                    <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
-                                        <button
-                                            onclick="window.location.href='/surat/${val.id}/edit'"
-                                            type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
-                                            <i data-feather="edit"></i>
-                                            Edit</button>
-                                        <a href="arsip/lihat_arsip/${val.id}" target="_blank"
-                                            class="btn btn-icon btn-success w-100 mb-1 text-start"><i
-                                                data-feather="file-plus"></i>
-                                            Lihat</a>
-                                        <form id="hapus_${val.id}"
-                                            action="/surat/${val.id}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button"
-                                                class="btn btn-icon btn-danger w-100 mb-1 text-start"
-                                                onclick="notif_delete(${val.id})" value="delete">
-                                                <i data-feather="trash"></i> Hapus
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </td>
-                            `
-                            html_row += `<tr>
-                            <td>${val.nomor_surat}</td>
-                            <td style="white-space:nowrap">${val.nama_dokumen}</td>
-                            <td>${val.tanggal}</td>
-                            <td>${val.dari}</td>
-                            <td>${val.tujuan_surat}</td>
-                            <td>${menu}</td>
-                        </tr>`;
-                        });
-                        var html_content = `
-                <thead>
-                    <tr>
-                        <th>Nomor Surat</th>
-                        <th>Nama Surat</th>
-                        <th>Tanggal</th>
-                        <th>Dari</th>
-                        <th>Tujuan</th>
-                        <th>Menu</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${html_row}
-                </tbody>`;
-                        if ($.fn.DataTable.isDataTable('#arsip')) {
-                            $('#arsip').DataTable().destroy();
-                        }
-                        $('#arsip').unblock().html(html_content).DataTable({
-                            searching: false,
-                            sorting: false,
-                            drawCallback: function() {
-                                $('#arsip [data-feather]').each(function() {
-                                    var icon = $(this).data('feather');
-                                    $(this).empty().append(feather.icons[icon].toSvg({
-                                        width: 14,
-                                        height: 14
-                                    }));
-                                });
-                            }
-                        });
-                        $('#'.name).val();
-                    },
-                    error: function(error) {
-                        Swal.fire(
-                            'Error',
-                            'Data Tidak Ditemukan',
-                            'error'
-                        )
-                    }
-                });
-            } else {
-                get_arsip_umum(institusi);
-            }
         }
 
         // CARI DATA ARSIP PENTING

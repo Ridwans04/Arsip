@@ -40,19 +40,18 @@ Route::post('/registrasi_store', [Auth_Controller::class, 'registrasi_store'])->
 // ROUTE SURAT MASUK
 Route::prefix('arsip')->group(function () {
     // ROUTE SURAT KELUAR
+    Route::view('arsip_lama', 'arsip_lama.data')->name('arsip_lama');
     Route::view('arsip_umum', 'arsip.arsip_umum')->name('arsip_umum');
-    Route::view('arsip_penting', 'arsip.arsip_penting')->name('arsip_penting');
+    Route::view('arsip_penting', 'arsip.arsip_penting', [
+        'list_surat' => Dokumen::where('klasifikasi', 'Penting')->get()
+    ])->name('arsip_penting');
     Route::get('lihat_arsip/{id}', function($id){
         $surat = Surat::find($id);
-        return view('surat.lihat_arsip', compact('surat'));
+        return view('arsip_lama.lihat_arsip', compact('surat'));
     })->name('lihat_arsip');
-    Route::get('pilih_klasifikasi_surat', [Arsip_Controller::class, 'pilih_klasifikasi_surat'])->name('pilih_klasifikasi_surat');
-
     Route::delete('{id}', [Arsip_Controller::class, 'destroy'])->name('Hapus data');
     Route::get('{id}/edit', [Arsip_Controller::class, 'edit'])->name('Edit Surat');
     Route::put('{id}', [Arsip_Controller::class, 'update'])->name('Update Surat');
-    Route::get('buatSurat', [Arsip_Controller::class, 'buat'])->name('Buat Surat');
-    Route::post('shop', [Arsip_Controller::class, 'shop'])->name('shop');
 
 });
 
