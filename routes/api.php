@@ -22,4 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('get_arsip_umum', [Arsip_Controller::class, 'get_arsip_umum'])->name('get_arsip_umum');
 Route::get('get_arsip_penting', [Arsip_Controller::class, 'get_arsip_penting'])->name('get_arsip_penting');
-Route::get('cari_data', [Arsip_Controller::class, 'cari_data'])->name('cari_data');
+Route::get('cari_data_umum', [Arsip_Controller::class, 'cari_data_umum'])->name('cari_data_umum');
+Route::get('cari_data_penting', [Arsip_Controller::class, 'cari_data_penting'])->name('cari_data_penting');

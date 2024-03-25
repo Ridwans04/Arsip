@@ -49,19 +49,8 @@
     <script src="{{ asset('js/scripts/tool/sweet-alert.js') }}"></script>
     <script src="https://malsup.github.io/jquery.blockUI.js"></script>
     <script>
-        $(document).ready(function() {
 
-            @if ($message = Session::get('success'))
-                toastr['success'](
-                    '{!! $message !!}',
-                    'Sukses', {
-                        showDuration: 500
-                    }
-                );
-            @endif
-
-        });
-
+        // MENAMPILKAN MENU PEMILIHAN KLASIFIKASI SURAT
         function klasifikasi_surat() {
             var pilih_klasifikasi = document.getElementById("klasifikasi").value;
             pilih_klasifikasi_surat(pilih_klasifikasi);
@@ -92,6 +81,7 @@
             });
         };
 
+        // MENGAMBIL DATA ARSIP UMUM
         function get_arsip_umum(institusi) {
             const id_surat = $('#nama_surat').val();
             $.ajax({
@@ -196,6 +186,7 @@
             });
         }
 
+        // MENGAMBIL DATA ARSIP PENTING
         function get_arsip_penting(institusi) {
             $.ajax({
                 type: "GET",
@@ -312,12 +303,13 @@
             });
         }
 
-        function cari_data(name, institusi) {
+        // CARI DATA ARSIP UMUM
+        function cari_data_umum(name, institusi) {
             var value = $('#' + name).val();
             if (value != '') {
                 $.ajax({
                     type: "GET",
-                    url: `{{ route('cari_data') }}?name=${name}&value=${value}&institusi=${institusi}`,
+                    url: `{{ route('cari_data_umum') }}?name=${name}&value=${value}&institusi=${institusi}`,
                     beforeSend: function() {
                         $('#arsip').block({
                             message: '<div class="loader-box"><div class="loader-1"></div></div>',
@@ -420,6 +412,115 @@
             }
         }
 
+        // CARI DATA ARSIP PENTING
+        function cari_data_penting(institusi) {
+            var value = $('#cari_data_penting').val();
+            if (value != '') {
+                $.ajax({
+                    type: "GET",
+                    url: `{{ route('cari_data_penting') }}?name=${name}&value=${value}&institusi=${institusi}`,
+                    beforeSend: function() {
+                        $('#arsip').block({
+                            message: '<div class="loader-box"><div class="loader-1"></div></div>',
+                            css: {
+                                backgroundColor: 'transparent',
+                                border: '0'
+                            },
+                            overlayCSS: {
+                                backgroundColor: '#fff',
+                                opacity: 0.8
+                            }
+                        });
+                    },
+                    dataType: "JSON",
+                    success: function(response) {
+                        var html_row = "";
+                        var menu = "";
+                        $.each(response.data, function(key, val) {
+                            menu =
+                                `<div class="btn-group">
+                                    <button class="btn btn-success dropdown-toggle" type="button"
+                                        id="dropdownMenuButton2" data-bs-toggle="dropdown"
+                                        aria-expanded="false"><i data-feather="list"></i>
+                                    </button>
+                                    <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
+                                        <button
+                                            onclick="window.location.href='/surat/${val.id}/edit'"
+                                            type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
+                                            <i data-feather="edit"></i>
+                                            Edit</button>
+                                        <a href="arsip/lihat_arsip/${val.id}" target="_blank"
+                                            class="btn btn-icon btn-success w-100 mb-1 text-start"><i
+                                                data-feather="file-plus"></i>
+                                            Lihat</a>
+                                        <form id="hapus_${val.id}"
+                                            action="/surat/${val.id}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="button"
+                                                class="btn btn-icon btn-danger w-100 mb-1 text-start"
+                                                onclick="notif_delete(${val.id})" value="delete">
+                                                <i data-feather="trash"></i> Hapus
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                            `
+                            html_row += `<tr>
+                            <td>${val.nomor_surat}</td>
+                            <td style="white-space:nowrap">${val.nama_dokumen}</td>
+                            <td>${val.tanggal}</td>
+                            <td>${val.dari}</td>
+                            <td>${val.tujuan_surat}</td>
+                            <td>${menu}</td>
+                        </tr>`;
+                        });
+                        var html_content = `
+                <thead>
+                    <tr>
+                        <th>Nomor Surat</th>
+                        <th>Nama Surat</th>
+                        <th>Tanggal</th>
+                        <th>Dari</th>
+                        <th>Tujuan</th>
+                        <th>Menu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${html_row}
+                </tbody>`;
+                        if ($.fn.DataTable.isDataTable('#arsip')) {
+                            $('#arsip_penting').DataTable().destroy();
+                        }
+                        $('#arsip_penting').unblock().html(html_content).DataTable({
+                            searching: false,
+                            sorting: false,
+                            drawCallback: function() {
+                                $('#arsip [data-feather]').each(function() {
+                                    var icon = $(this).data('feather');
+                                    $(this).empty().append(feather.icons[icon].toSvg({
+                                        width: 14,
+                                        height: 14
+                                    }));
+                                });
+                            }
+                        });
+                    },
+                    error: function(error) {
+                        Swal.fire(
+                            'Error',
+                            'Data Tidak Ditemukan',
+                            'error'
+                        )
+                    }
+                });
+            } else {
+                get_arsip_penting(institusi);
+            }
+        }
+
+        // MENGHAPUS DATA ARSIP
         function notif_delete(id) {
             Swal.fire({
                 title: 'Apa Anda Yakin ?',

@@ -46,7 +46,7 @@ class Arsip_Controller extends Controller
         ]);
     }
 
-    public function cari_data(Request $request)
+    public function cari_data_umum(Request $request)
     {
         $ins = $request->institusi;
         $name = $request->name;
@@ -57,7 +57,19 @@ class Arsip_Controller extends Controller
         return response()->json(['data' => $surat, 'success' => true]);
     }
 
-    
+    public function cari_data_penting(Request $request)
+    {
+        $ins = $request->institusi;
+        $value = $request->input('value');
+        $data = Surat::where('nomor_surat', 'LIKE', '%'. $value .'%')
+                    ->where('tanggal', '%'. $value .'%')
+                    ->where('perihal', '%'. $value .'%')
+                    ->where('institusi', $ins);
+
+        $surat = $data->get();
+        return response()->json(['data' => $surat, 'success' => true]);
+    }
+
 
     public function store(Request $request)
     {

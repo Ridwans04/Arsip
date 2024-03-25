@@ -18,13 +18,9 @@ return new class extends Migration
             $table->string('institusi');
             $table->string('kode_arsip');
             $table->date('tanggal_arsip');
-            $table->string('masa');
-            $table->string('klasifikasi');
-            $table->enum('sifat', ['Penting', 'Biasa'])->nullable();
-            $table->string('perihal')->nullable();
+            $table->string('masa_penyimpanan');
+            $table->string('klasifikasi_surat');
             $table->string('keterangan')->nullable();
-            $table->enum('jenis_surat',['Masuk', 'Keluar']);
-            $table->string('dokumen')->nullable();
             $table->foreignId('surat_id')->nullable();
             $table->timestamps();
         });
