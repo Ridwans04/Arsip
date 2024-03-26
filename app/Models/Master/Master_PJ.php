@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Master;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Arsip extends Model
+class Master_PJ extends Model
 {
     use HasFactory;
-    protected $table = 'arsip_lama';
+    protected $table = 'master_pj';
     protected $guarded = [];
 }

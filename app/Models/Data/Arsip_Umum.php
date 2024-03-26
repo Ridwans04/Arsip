@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Data;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Dokumen extends Model
+class Arsip_Umum extends Model
 {
     use HasFactory;
-    protected $table = 'dokumen';
-    protected $guarded = [];
 }

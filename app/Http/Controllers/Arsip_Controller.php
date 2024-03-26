@@ -2,21 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Arsip;
-use App\Models\Disposisi;
-use App\Models\Dokumen;
-use App\Models\Ekspedisi;
+use App\Models\Master\Master_Surat;
 use Illuminate\Http\Request;
-use App\Models\Surat;
-use Illuminate\Support\Facades\Auth;
-use File;
+use App\Models\Data\Surat;
 
 class Arsip_Controller extends Controller
 {
     public function pilih_klasifikasi_surat(Request $request)
     {
         $jenis = $request->pilih_klasifikasi;
-        $data = Dokumen::where('klasifikasi', $jenis)->orderBy('id', 'desc')->get();
+        $data = Master_Surat::where('klasifikasi', $jenis)->orderBy('id', 'desc')->get();
         return response()->json([
             'data' => $data,
             'success' => true,
@@ -28,17 +23,6 @@ class Arsip_Controller extends Controller
         $nama_surat = $request->nama_surat;
         $institusi = $request->ins;
         $data = Surat::where('nama_surat', $nama_surat)->where('institusi', $institusi)->orderBy('id', 'desc')->get();
-
-        return response()->json([
-            'data' => $data,
-            'success' => true,
-        ]);
-    }
-
-    public function get_arsip_penting(Request $request)
-    {
-        $institusi = $request->ins;
-        $data = Surat::where('klasifikasi', 'Penting')->where('institusi', $institusi)->orderBy('id', 'desc')->get();
 
         return response()->json([
             'data' => $data,

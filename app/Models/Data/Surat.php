@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Data;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tujuan extends Model
+class Surat extends Model
 {
     use HasFactory;
-    protected $table = 'tujuan';
+    protected $table = 'surat_lama';
     protected $guarded = [];
 }

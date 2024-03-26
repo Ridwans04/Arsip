@@ -15,28 +15,44 @@
       "icon": "mail",
       "slug": "",
       "submenu": [
-       
+          {
+            "url" : "arsip/arsip_umum",
+            "name": "Surat Umum",
+            "icon": "folder-minus",
+            "slug": "arsip_umum"
+          },
+          {
+            "url": "arsip/arsip_penting",
+            "name": "Surat Penting",
+            "icon": "codepen",
+            "slug":"arsip_penting"
+          }
+        ]
+    },
+      {
+        "url": "disposisi/index",
+        "name": "Lembar Disposisi",
+        "icon": "file-text",
+        "slug": "lembar-disposisi"
+      },
+      {
+        "navheader": "DATA ARSIP LAMA",
+        "slug": ""
+      },
+      {
+        "name": "Tabel Data",
+        "icon": "database",
+        "slug": "",
+        "submenu": [
             {
-              "url" : "arsip/arsip_umum",
-              "name": "Surat Umum",
+              "url" : "arsip/arsip_lama",
+              "name": "Arsip Lama",
               "icon": "folder-minus",
-              "slug": "arsip_umum"
-            },
-            {
-              "url": "arsip/arsip_penting",
-              "name": "Surat Penting",
-              "icon": "codepen",
-              "slug":"arsip_penting"
+              "slug": "arsip_lama"
             }
           ]
-       },
-        {
-          "url": "disposisi/index",
-          "name": "Lembar Disposisi",
-          "icon": "file-text",
-          "slug": "lembar-disposisi"
-        },
-       {
+         },
+      {
         "name": "Daftar Catatan",
         "icon": "book",
         "slug": "Catatan",
@@ -54,24 +70,6 @@
             "slug": "Rekap-Ekspedisi"
           }
         ]
-      },
-      {
-        "navheader": "DATA ARSIP LAMA",
-        "slug": ""
-      },
-      {
-        "name": "Tabel Data",
-        "icon": "database",
-        "slug": "",
-        "submenu": [
-         
-              {
-                "url" : "arsip/arsip_lama",
-                "name": "Arsip Lama",
-                "icon": "folder-minus",
-                "slug": "arsip_lama"
-              }
-            ]
-         }
+      }
  ]
 }

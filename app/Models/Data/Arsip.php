@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Data;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ekspedisi extends Model
+class Arsip extends Model
 {
     use HasFactory;
-    protected $table = 'ekspedisi';
+    protected $table = 'arsip_lama';
     protected $guarded = [];
 }

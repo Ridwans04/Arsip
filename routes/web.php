@@ -2,18 +2,12 @@
 
 use App\Http\Controllers\Arsip_Controller;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StaterkitController;
-use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\EkspedisiController;
-use App\Http\Controllers\SuratController;
 use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\ArsipController;
 use App\Http\Controllers\Auth\Auth_Controller;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
-use App\Models\Dokumen;
-use App\Models\Surat;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Master\Master_Surat;
+use App\Models\Data\Surat;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +37,7 @@ Route::prefix('arsip')->group(function () {
     Route::view('arsip_lama', 'arsip_lama.data')->name('arsip_lama');
     Route::view('arsip_umum', 'arsip.arsip_umum')->name('arsip_umum');
     Route::view('arsip_penting', 'arsip.arsip_penting', [
-        'list_surat' => Dokumen::where('klasifikasi', 'Penting')->get()
+        'list_surat' => Master_Surat::where('klasifikasi', 'Penting')->get()
     ])->name('arsip_penting');
     Route::get('lihat_arsip/{id}', function($id){
         $surat = Surat::find($id);
@@ -91,5 +85,3 @@ Route::get('ekspedisi/{id}/edit', [EkspedisiController::class, 'edit'])->name('E
 Route::put('ekspedisi/{id}', [EkspedisiController::class, 'update'])->name('Update Data Ekspedisi');
 Route::delete('ekspedisi/{id}', [EkspedisiController::class, 'destroy'])->name('Hapus Data Ekspedisi');
 
-// locale Route
-Route::get('lang/{locale}', [LanguageController::class, 'swap']);

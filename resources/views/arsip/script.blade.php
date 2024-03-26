@@ -122,16 +122,6 @@
                                             class="btn btn-icon btn-info w-100 mb-1 text-start"><i
                                                 data-feather="file-plus"></i>
                                             Lihat</a>
-                                        <form id="hapus_${val.id}"
-                                            action="/surat/${val.id}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button"
-                                                class="btn btn-icon btn-danger w-100 mb-1 text-start"
-                                                onclick="notif_delete(${val.id})" value="delete">
-                                                <i data-feather="trash"></i> Hapus
-                                            </button>
-                                        </form>
                                     </div>
                                 </div>
                             </td>
@@ -187,7 +177,7 @@
         }
 
         // CARI DATA ARSIP UMUM
-        function cari_data_umum(name, institusi) {
+        function cari_data(name, institusi) {
             var value = $('#' + name).val();
             if (value != '') {
                 $.ajax({
@@ -224,26 +214,16 @@
                                             <i data-feather="edit"></i>
                                             Edit</button>
                                         <a href="arsip/lihat_arsip/${val.id}" target="_blank"
-                                            class="btn btn-icon btn-success w-100 mb-1 text-start"><i
+                                            class="btn btn-icon btn-info w-100 mb-1 text-start"><i
                                                 data-feather="file-plus"></i>
                                             Lihat</a>
-                                        <form id="hapus_${val.id}"
-                                            action="/surat/${val.id}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button"
-                                                class="btn btn-icon btn-danger w-100 mb-1 text-start"
-                                                onclick="notif_delete(${val.id})" value="delete">
-                                                <i data-feather="trash"></i> Hapus
-                                            </button>
-                                        </form>
                                     </div>
                                 </div>
                             </td>
                             `
                             html_row += `<tr>
                             <td>${val.nomor_surat}</td>
-                            <td style="white-space:nowrap">${val.nama_dokumen}</td>
+                            <td style="white-space:nowrap">${val.nama_surat}</td>
                             <td>${val.tanggal}</td>
                             <td>${val.dari}</td>
                             <td>${val.tujuan_surat}</td>
@@ -401,26 +381,6 @@
             } else {
                 get_arsip_penting(institusi);
             }
-        }
-
-        // MENGHAPUS DATA ARSIP
-        function notif_delete(id) {
-            Swal.fire({
-                title: 'Apa Anda Yakin ?',
-                text: "Anda tidak bisa mengembalikan apa yang dihapus!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, Hapus!',
-                customClass: {
-                    confirmButton: 'btn btn-primary',
-                    cancelButton: 'btn btn-outline-danger ms-1'
-                },
-                buttonsStyling: false
-            }).then(function(result) {
-                if (result.value) {
-                    $('#hapus_' + id).submit();
-                }
-            });
         }
     </script>
 @endsection
