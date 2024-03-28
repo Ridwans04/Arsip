@@ -31,18 +31,22 @@ Route::get('/logout', [Auth_Controller::class, 'logout'])->name('logout');
 Route::view('/auth/registrasi', 'auth/registrasi')->name('registrasi');
 Route::post('/registrasi_store', [Auth_Controller::class, 'registrasi_store'])->name('registrasi_store');
 
-// ROUTE SURAT MASUK
-Route::prefix('arsip')->group(function () {
-    // ROUTE SURAT KELUAR
-    Route::view('arsip_lama', 'arsip_lama.data')->name('arsip_lama');
-    Route::view('arsip_umum', 'arsip.arsip_umum')->name('arsip_umum');
-    Route::view('arsip_penting', 'arsip.arsip_penting', [
-        'list_surat' => Master_Surat::where('klasifikasi', 'Penting')->get()
-    ])->name('arsip_penting');
+// ROUTE ARSIP LAMA
+    Route::view('arsip_lama', 'arsip_lama.data')->name('arsip_lama'); 
     Route::get('lihat_arsip/{id}', function($id){
         $surat = Surat::find($id);
         return view('arsip_lama.lihat_arsip', compact('surat'));
     })->name('lihat_arsip');
+    Route::view('catatan_arsip/{id}', 'arsip_lama.catatan_arsip')->name('catatan_arsip');
+
+// ROUTE SURAT MASUK
+Route::prefix('arsip')->group(function () {
+    // ROUTE SURAT KELUAR
+    
+    Route::view('arsip_umum', 'arsip.arsip_umum')->name('arsip_umum');
+    Route::view('arsip_penting', 'arsip.arsip_penting', [
+        'list_surat' => Master_Surat::where('klasifikasi', 'Penting')->get()
+    ])->name('arsip_penting');
     Route::delete('{id}', [Arsip_Controller::class, 'destroy'])->name('Hapus data');
     Route::get('{id}/edit', [Arsip_Controller::class, 'edit'])->name('Edit Surat');
     Route::put('{id}', [Arsip_Controller::class, 'update'])->name('Update Surat');

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Ekspedisi;
-use App\Models\Surat;
+use App\Models\Data\Ekspedisi;
+use App\Models\Data\Surat;
 use Illuminate\Support\Facades\Auth;
 
 class EkspedisiController extends Controller

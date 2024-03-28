@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Arsip;
-use App\Models\Disposisi;
-use App\Models\Ekspedisi;
-use App\Models\Surat;
+use App\Models\Data\Arsip;
+use App\Models\Data\Disposisi;
+use App\Models\Data\Ekspedisi;
+use App\Models\Data\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use File;
@@ -34,7 +34,7 @@ class ArsipController extends Controller
             
         });
         $arsip = $arsip->get();
-        return view('arsip.index', compact(['arsip', 'params']));
+        return view('temp.index', compact(['arsip', 'params']));
     }
 
     public function cari_arsip(Request $request)
@@ -133,7 +133,7 @@ class ArsipController extends Controller
     {
         $read_only = $request->read_only??false;
         $arsip = Arsip::find($id);
-        return view('/arsip/edit', compact('arsip', 'read_only'));
+        return view('/temp/edit', compact('arsip', 'read_only'));
     }
 
     public function update($id, Request $request)

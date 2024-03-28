@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Arsip_Penting extends Model
 {
     use HasFactory;
+    protected $table = 'arsip_penting';
+    protected $guarded = [];
 }

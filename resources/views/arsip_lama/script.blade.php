@@ -8,16 +8,12 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap5.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap5.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/sweetalert2.min.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.min.css')) }}">
 @endsection
 
 @section('page-style')
     {{-- Page Css files --}}
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-flat-pickr.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-pickadate.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-sweet-alerts.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
 @endsection
 
 @section('vendor-script')
@@ -43,13 +39,10 @@
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/forms/pickers/form-pickers.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/extensions/ext-component-sweet-alerts.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/extensions/ext-component-toastr.js')) }}"></script>
     <script src="{{ asset('js/scripts/tool/block-ui.js') }}"></script>
     <script src="{{ asset('js/scripts/tool/sweet-alert.js') }}"></script>
     <script src="https://malsup.github.io/jquery.blockUI.js"></script>
     <script>
-
         // MENAMPILKAN MENU PEMILIHAN KLASIFIKASI SURAT
         function klasifikasi_surat() {
             var pilih_klasifikasi = document.getElementById("klasifikasi").value;
@@ -61,7 +54,7 @@
 
             $.ajax({
                 method: "get",
-                url: "{{route('pilih_klasifikasi_surat')}}?pilih_klasifikasi=" + pilih_klasifikasi,
+                url: "{{ route('pilih_klasifikasi_surat') }}?pilih_klasifikasi=" + pilih_klasifikasi,
                 dataType: 'JSON',
                 success: function(response) {
                     $('#nama_surat').empty().append($('<option>', {
@@ -119,9 +112,16 @@
                                             <i data-feather="edit"></i>
                                             Edit</button>
                                         <a href="lihat_arsip/${val.id}" target="_blank"
-                                            class="btn btn-icon btn-success w-100 mb-1 text-start"><i
+                                            class="btn btn-icon btn-info w-100 mb-1 text-start"><i
                                                 data-feather="file-plus"></i>
                                             Lihat</a>
+                                        <button class="btn btn-icon btn-secondary w-100 mb-1 text-start onclick="detail_arsip('${val.id}', '${val.kode_arsip}', '${val.tanggal_arsip}', '${val.masa}')">
+                                            <i data-feather="book"></i>
+                                            Arsip</button>
+                                        <a href="catatan_lama/${val.id}"
+                                            class="btn btn-icon btn-secondary w-100 mb-1 text-start"><i
+                                                data-feather="message-square"></i>
+                                            Ekspedisi</a>
                                         <form id="hapus_${val.id}"
                                             action="/surat/${val.id}" method="POST">
                                             @csrf
@@ -291,6 +291,9 @@
                 get_arsip_penting(institusi);
             }
         }
+
+        // MODAL CATATAN ARSIP
+        function detail_arsip(id, kode, tgl, masa)
 
         // MENGHAPUS DATA ARSIP
         function notif_delete(id) {

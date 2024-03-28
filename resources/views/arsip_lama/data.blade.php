@@ -84,6 +84,8 @@
                         <table id="arsip" class="dt-multilingual table">
                         </table>
                     </div>
+                    @include('arsip_lama.catatan_arsip')
+                    @include('arsip_lama.catatan_ekspedisi')
                 </div>
             </div>
         </div>

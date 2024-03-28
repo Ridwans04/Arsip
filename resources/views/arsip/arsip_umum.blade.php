@@ -83,15 +83,7 @@
                         <table id="arsip" class="dt-multilingual table">
                         </table>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#editUser">Show</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
+                    <div class="modal fade" id="modal_detail" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
                             <div class="modal-content">
                                 <div class="modal-header bg-transparent">
@@ -103,16 +95,19 @@
                                         <h1 class="mb-1">Detail dan Edit Data Arsip</h1>
                                         <p>Update data arsip jika diperlukan</p>
                                     </div>
-                                    <form id="editUserForm" class="row gy-1 pt-75" onsubmit="return false">
+                                    <form id="editUserForm" class="row gy-1 pt-75" onsubmit="">
+                                        <input type="hidden" id="id_arsip">
                                         <div class="col-12 col-md-6">
-                                            <label class="form-label" for="modalEditUserFirstName">First Name</label>
-                                            <input type="text" id="nama_surat" name="modalEditUserFirstName"
-                                                class="form-control" data-msg="Please enter your first name" />
+                                            <label class="form-label">Kode Arsip</label>
+                                            <input type="text" id="kode_arsip" class="form-control"  />
                                         </div>
                                         <div class="col-12 col-md-6">
-                                            <label class="form-label" for="modalEditUserFirstName">First Name</label>
-                                            <input type="text" id="nama_surat" name="modalEditUserFirstName"
-                                                class="form-control" data-msg="Please enter your first name" />
+                                            <label class="form-label">Tanggal Arsip</label>
+                                            <input type="text" id="tgl_arsip" class="form-control"  />
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label class="form-label">Masa Penyimpanan</label>
+                                            <input type="text" id="masa_arsip" class="form-control"  />
                                         </div>
                                         <div class="col-12 text-center mt-2 pt-50">
                                             <button type="submit" class="btn btn-primary me-1">Submit</button>

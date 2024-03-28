@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Arsip_Umum extends Model
 {
     use HasFactory;
+    protected $table = 'arsip_umum';
+    protected $guarded = [];
 }

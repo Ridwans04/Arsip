@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Data\Arsip_Penting;
+use App\Models\Data\Arsip_Umum;
 use App\Models\Master\Master_Surat;
 use Illuminate\Http\Request;
 use App\Models\Data\Surat;
@@ -21,8 +23,16 @@ class Arsip_Controller extends Controller
     public function get_data_arsip(Request $request)
     {
         $nama_surat = $request->nama_surat;
+
+        $klasifikasi_surat = Master_Surat::where('nama_surat', $nama_surat)->first();
         $institusi = $request->ins;
-        $data = Surat::where('nama_surat', $nama_surat)->where('institusi', $institusi)->orderBy('id', 'desc')->get();
+
+        if($klasifikasi_surat->klasifikasi == 'Penting'){
+            $data = Arsip_Penting::where('nama_surat', $nama_surat)->where('institusi', $institusi)->orderBy('id', 'desc')->get();
+        }
+        else{
+            $data = Arsip_Umum::where('nama_surat', $nama_surat)->where('institusi', $institusi)->orderBy('id', 'desc')->get();
+        }
 
         return response()->json([
             'data' => $data,

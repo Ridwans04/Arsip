@@ -114,7 +114,7 @@
                                     </button>
                                     <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
                                         <button
-                                            onclick="window.location.href='/surat/${val.id}/edit'"
+                                            onclick="modal_detail('${val.id}', '${val.kode_arsip}', '${val.tanggal_arsip}', '${val.masa_penyimpanan}')"
                                             type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
                                             <i data-feather="edit"></i>
                                             Edit</button>
@@ -129,9 +129,9 @@
                         html_row += `<tr>
                             <td>${val.nomor_surat}</td>
                             <td style="white-space:nowrap">${val.nama_surat}</td>
-                            <td>${val.tanggal}</td>
-                            <td>${val.dari}</td>
-                            <td>${val.tujuan_surat}</td>
+                            <td>${val.kode_arsip}</td>
+                            <td>${val.tanggal_arsip}</td>
+                            <td>${val.masa_penyimpanan}</td>
                             <td>${menu}</td>
                         </tr>`;
                     });
@@ -140,9 +140,9 @@
                     <tr>
                         <th>Nomor Surat</th>
                         <th>Nama Surat</th>
+                        <th>Kode Arsip</th>
                         <th>Tanggal</th>
-                        <th>Dari</th>
-                        <th>Tujuan</th>
+                        <th>Masa</th>
                         <th>Menu</th>
                     </tr>
                 </thead>
@@ -381,6 +381,15 @@
             } else {
                 get_arsip_penting(institusi);
             }
+        }
+
+        // MODAL DATA
+        function modal_detail(id, kode, tgl, masa){
+            $('#id_arsip').val(id);
+            $('#kode_arsip').val(kode);
+            $('#tgl_arsip').val(tgl);
+            $('#masa_arsip').val(masa);
+            $('#modal_detail').modal('show');
         }
     </script>
 @endsection
