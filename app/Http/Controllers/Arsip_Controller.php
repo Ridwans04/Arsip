@@ -44,7 +44,13 @@ class Arsip_Controller extends Controller
     {
         $nama_surat = $request->nama_surat;
         $institusi = $request->ins;
-        $data = Surat::where('nama_surat', $nama_surat)->where('institusi', $institusi)->orderBy('id', 'desc')->get();
+        $data = Surat::select(['surat_lama.*', 'arsip_lama.kode_arsip', 'arsip_lama.tanggal_arsip', 'arsip_lama.masa', 'ekspedisi.tanggal_kirim', 'ekspedisi.nama_penerima'])
+                        ->where('surat_lama.nama_surat', $nama_surat)
+                        ->where('surat_lama.institusi', $institusi)
+                        ->join('arsip_lama', 'surat_lama.arsip_id', '=', 'arsip_lama.id')
+                        ->join('ekspedisi', 'surat_lama.ekspedisi_id', '=', 'ekspedisi.id')
+                        ->orderBy('id', 'desc')
+                        ->get();
 
         return response()->json([
             'data' => $data,

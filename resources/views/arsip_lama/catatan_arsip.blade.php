@@ -8,6 +8,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <input type="hidden" id="id_surat">
+                        <input type="hidden" id="id_arsip">
                         <div class="col-md-4 col-12">
                             <div class="mb-1">
                                 <label class="form-label" for="kode_arsip">Kode Arsip</label>
@@ -23,7 +25,7 @@
                         <div class="col-md-4 col-12">
                             <div class="mb-1">
                                 <label class="form-label" for="masa_arsip">Masa Penyimpanan</label>
-                                <input type="text" id="masa_arsip" class="form-control"  />
+                                <input type="text" id="masa_arsip" class="form-control"/>
                             </div>
                         </div>
                     </div>

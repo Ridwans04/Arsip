@@ -10,32 +10,28 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    @if (Auth::user()->level == 'Admin')
-                        <div class="card-header border-bottom p-1">
-                            @php
-                                $institusi = Auth::user()->institusi;
-                            @endphp
-
-                            <div class="btn-group">
-                                <div class="col-md-8" style="margin-left: 7px">
-                                    <select name="klasifikasi" id="klasifikasi" class="hide-search form-select"
-                                        onchange="klasifikasi_surat()">
-                                        <option>Pilih Klasifikasi Surat</option>
-                                        <option value="Keluar">Surat Keluar</option>
-                                        <option value="Masuk">Surat Masuk</option>
-                                        <option value="Penting">Surat Penting</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-10" style="margin-left: 7px">
-                                    <select name="nama_surat" id="nama_surat" class="hide-search form-select"
-                                        onchange="get_arsip_lama('{{ $institusi }}')">
-                                        <option value="">Pilih Nama Surat</option>
-                                    </select>
-                                </div>
+                    <div class="card-header border-bottom p-1">
+                        @php
+                            $institusi = Auth::user()->institusi;
+                        @endphp
+                        <div class="btn-group">
+                            <div class="col-md-8" style="margin-left: 7px">
+                                <select name="klasifikasi" id="klasifikasi" class="hide-search form-select"
+                                    onchange="klasifikasi_surat()">
+                                    <option>Pilih Klasifikasi Surat</option>
+                                    <option value="Keluar">Surat Keluar</option>
+                                    <option value="Masuk">Surat Masuk</option>
+                                    <option value="Penting">Surat Penting</option>
+                                </select>
                             </div>
-
+                            <div class="col-md-10" style="margin-left: 7px">
+                                <select name="nama_surat" id="nama_surat" class="hide-search form-select"
+                                    onchange="get_arsip_lama('{{ $institusi }}')">
+                                    <option value="">Pilih Nama Surat</option>
+                                </select>
+                            </div>
                         </div>
-                    @endif
+                    </div>
                     <div class="card-body mt-2">
                         <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">

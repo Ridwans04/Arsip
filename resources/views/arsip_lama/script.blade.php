@@ -106,22 +106,18 @@
                                         aria-expanded="false"><i data-feather="list"></i>
                                     </button>
                                     <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
-                                        <button
-                                            onclick="window.location.href='/surat/${val.id}/edit'"
-                                            type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
-                                            <i data-feather="edit"></i>
-                                            Edit</button>
                                         <a href="lihat_arsip/${val.id}" target="_blank"
                                             class="btn btn-icon btn-info w-100 mb-1 text-start"><i
                                                 data-feather="file-plus"></i>
                                             Lihat</a>
-                                        <button class="btn btn-icon btn-secondary w-100 mb-1 text-start onclick="detail_arsip('${val.id}', '${val.kode_arsip}', '${val.tanggal_arsip}', '${val.masa}')">
-                                            <i data-feather="book"></i>
-                                            Arsip</button>
-                                        <a href="catatan_lama/${val.id}"
-                                            class="btn btn-icon btn-secondary w-100 mb-1 text-start"><i
-                                                data-feather="message-square"></i>
-                                            Ekspedisi</a>
+                                        <button
+                                            onclick="detail_arsip('${val.id}','${val.arsip_id}', '${val.kode_arsip}', '${val.tanggal_arsip}', '${val.masa}')"
+                                            type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
+                                            <i data-feather="edit"></i>
+                                            Edit</button>
+                                        <button class="btn btn-icon btn-light w-100 mb-1 text-start" onclick="detail_ekspedisi('${val.id}', '${val.tanggal_kirim}', '${val.nama_penerima}')">
+                                            <i data-feather="message-square"></i>
+                                            Ekspedisi</button>
                                         <form id="hapus_${val.id}"
                                             action="/surat/${val.id}" method="POST">
                                             @csrf
@@ -293,7 +289,21 @@
         }
 
         // MODAL CATATAN ARSIP
-        function detail_arsip(id, kode, tgl, masa)
+        function detail_arsip(surat_id, arsip_id, kode, tgl, masa) {
+            $('#id_surat').val(surat_id);
+            $('#id_arsip').val(arsip_id);
+            $('#kode_arsip').val(kode);
+            $('#tgl_arsip').val(tgl);
+            $('#masa_arsip').val(masa);
+            $('#catatan_arsip').modal('show');
+        }
+
+        function detail_ekspedisi(id, tgl, nama) {
+            $('#id_arsip').val(id);
+            $('#tgl_eksepdisi').val(tgl);
+            $('#nama_penerima').val(masa);
+            $('#catatan_ekspedisi').modal('show');
+        }
 
         // MENGHAPUS DATA ARSIP
         function notif_delete(id) {
