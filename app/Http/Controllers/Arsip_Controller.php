@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Data\Arsip_Lama;
 use App\Models\Data\Arsip_Penting;
 use App\Models\Data\Arsip_Umum;
 use App\Models\Master\Master_Surat;
 use Illuminate\Http\Request;
-use App\Models\Data\Surat;
+use Illuminate\Support\Facades\DB;
 
 class Arsip_Controller extends Controller
 {
+    protected $arsip_lama;
+
+    public function __construct()
+    {
+        $this->arsip_lama = new Arsip_Lama();
+    }
     public function pilih_klasifikasi_surat(Request $request)
     {
         $jenis = $request->pilih_klasifikasi;
@@ -27,10 +34,9 @@ class Arsip_Controller extends Controller
         $klasifikasi_surat = Master_Surat::where('nama_surat', $nama_surat)->first();
         $institusi = $request->ins;
 
-        if($klasifikasi_surat->klasifikasi == 'Penting'){
+        if ($klasifikasi_surat->klasifikasi == 'Penting') {
             $data = Arsip_Penting::where('nama_surat', $nama_surat)->where('institusi', $institusi)->orderBy('id', 'desc')->get();
-        }
-        else{
+        } else {
             $data = Arsip_Umum::where('nama_surat', $nama_surat)->where('institusi', $institusi)->orderBy('id', 'desc')->get();
         }
 
@@ -39,22 +45,35 @@ class Arsip_Controller extends Controller
             'success' => true,
         ]);
     }
-    
+
+    public function update_arsip(Request $request)
+    {
+        $id = $request->input('id_arsip');
+        $kode = $request->input('kode_arsip');
+        $masa = $request->input('masa_arsip');
+        $tanggal = $request->input('tgl_arsip');
+
+        $data = Arsip_Umum::find($id);
+        $data->kode = $kode;
+        $data->masa = $masa;
+        $data->tanggal = $tanggal;
+        $data->save();
+
+        return response()->json([
+            'success'   => true
+        ]);
+        
+    }
+
     public function get_arsip_lama(Request $request)
     {
         $nama_surat = $request->nama_surat;
-        $institusi = $request->ins;
-        $data = Surat::select(['surat_lama.*', 'arsip_lama.kode_arsip', 'arsip_lama.tanggal_arsip', 'arsip_lama.masa', 'ekspedisi.tanggal_kirim', 'ekspedisi.nama_penerima'])
-                        ->where('surat_lama.nama_surat', $nama_surat)
-                        ->where('surat_lama.institusi', $institusi)
-                        ->join('arsip_lama', 'surat_lama.arsip_id', '=', 'arsip_lama.id')
-                        ->join('ekspedisi', 'surat_lama.ekspedisi_id', '=', 'ekspedisi.id')
-                        ->orderBy('id', 'desc')
-                        ->get();
+        $ins = $request->ins;
+        $data = $this->arsip_lama->get_data($ins, $nama_surat);
 
         return response()->json([
-            'data' => $data,
             'success' => true,
+            'data' => $data,
         ]);
     }
 
@@ -63,7 +82,7 @@ class Arsip_Controller extends Controller
         $ins = $request->institusi;
         $name = $request->name;
         $value = $request->input('value');
-        $data = Surat::where($name, 'LIKE', '%'. $value .'%')->where('institusi', $ins);
+        $data = Arsip_Umum::where($name, 'LIKE', '%' . $value . '%')->where('institusi', $ins);
 
         $surat = $data->get();
         return response()->json(['data' => $surat, 'success' => true]);
@@ -73,13 +92,18 @@ class Arsip_Controller extends Controller
     {
         $ins = $request->institusi;
         $value = $request->input('value');
-        $data = Surat::where('nomor_surat', 'LIKE', '%'. $value .'%')
-                    ->where('tanggal', '%'. $value .'%')
-                    ->where('perihal', '%'. $value .'%')
-                    ->where('institusi', $ins);
+        $data = Arsip_Penting::where('nomor_surat', 'LIKE', '%' . $value . '%')
+            ->where('tanggal', '%' . $value . '%')
+            ->where('perihal', '%' . $value . '%')
+            ->where('institusi', $ins);
 
         $surat = $data->get();
         return response()->json(['data' => $surat, 'success' => true]);
     }
 
+    public function hapus_data($id, Request $request)
+    {
+        Arsip_Lama::find($id)->delete();
+        return redirect()->back();
+    }
 }

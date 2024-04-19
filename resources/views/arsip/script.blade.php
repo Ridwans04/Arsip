@@ -391,5 +391,51 @@
             $('#masa_arsip').val(masa);
             $('#modal_detail').modal('show');
         }
+
+        function update_data(){
+            const form = new FormData(document.querySelector('form#update_arsip'));
+            Swal.fire({
+                icon: 'question',
+                title: `Apa anda yakin ingin memperbarui data ?`,
+                showCancelButton: true,
+                cancelButtonText: "Tidak",
+                confirmButtonText: 'Ya',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "post",
+                        url: `{{ route('update_arsip') }}`,
+                        processData: false,
+                        contentType: false,
+                        data: form,
+                        beforeSend: function () {
+                            Swal.fire({
+                                html: '<div style="height:50px"><div class="spinner-border text-danger" role="status"></div></div>',
+                                showConfirmButton: false,
+                                allowOutsideClick: false,
+                                background: 'transparent',
+                            });
+                        },
+                        dataType: 'JSON',
+                        success: function (response) {
+                            if (response.success) {
+                                Toast.fire({
+                                    icon: "success",
+                                    title: "Data berhasil diperbarui"
+                                });
+                            } else {
+                                Toast.fire({
+                                    icon: "error",
+                                    title: "Data gagal diperbarui"
+                                });
+                            }
+                        },
+                        error: function (response) {
+                            Swal.fire('Error', '', 'error')
+                        }
+                    })
+                }
+            })
+        }
     </script>
 @endsection

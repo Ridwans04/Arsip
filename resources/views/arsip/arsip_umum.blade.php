@@ -95,26 +95,22 @@
                                         <h1 class="mb-1">Detail dan Edit Data Arsip</h1>
                                         <p>Update data arsip jika diperlukan</p>
                                     </div>
-                                    <form id="editUserForm" class="row gy-1 pt-75" onsubmit="">
-                                        <input type="hidden" id="id_arsip">
-                                        <div class="col-12 col-md-6">
+                                    <form onsubmit="event.preventDefault(),update_data(this)" id="update_arsip" class="row gy-1 pt-75" onsubmit="">
+                                        <input type="hidden" name="id_arsip" id="id_arsip">
+                                        <div class="col-12 col-md-4">
                                             <label class="form-label">Kode Arsip</label>
                                             <input type="text" id="kode_arsip" class="form-control"  />
                                         </div>
-                                        <div class="col-12 col-md-6">
+                                        <div class="col-12 col-md-4">
                                             <label class="form-label">Tanggal Arsip</label>
                                             <input type="text" id="tgl_arsip" class="form-control"  />
                                         </div>
-                                        <div class="col-12 col-md-6">
+                                        <div class="col-12 col-md-4">
                                             <label class="form-label">Masa Penyimpanan</label>
                                             <input type="text" id="masa_arsip" class="form-control"  />
                                         </div>
                                         <div class="col-12 text-center mt-2 pt-50">
-                                            <button type="submit" class="btn btn-primary me-1">Submit</button>
-                                            <button type="reset" class="btn btn-outline-secondary"
-                                                data-bs-dismiss="modal" aria-label="Close">
-                                                Reset
-                                            </button>
+                                            <button type="submit" class="btn btn-primary me-1">Perbarui</button>
                                         </div>
                                     </form>
                                 </div>

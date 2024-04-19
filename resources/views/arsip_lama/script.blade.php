@@ -115,11 +115,11 @@
                                             type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
                                             <i data-feather="edit"></i>
                                             Edit</button>
-                                        <button class="btn btn-icon btn-light w-100 mb-1 text-start" onclick="detail_ekspedisi('${val.id}', '${val.tanggal_kirim}', '${val.nama_penerima}')">
+                                        <button class="btn btn-icon btn-secondary w-100 mb-1 text-start" onclick="detail_ekspedisi('${val.id}', '${val.tanggal_kirim}', '${val.nama_penerima}')">
                                             <i data-feather="message-square"></i>
                                             Ekspedisi</button>
-                                        <form id="hapus_${val.id}"
-                                            action="/surat/${val.id}" method="POST">
+                                        <form id="hapus_data_${val.id}"
+                                            action="hapus_data/${val.id}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button type="button"
@@ -299,9 +299,9 @@
         }
 
         function detail_ekspedisi(id, tgl, nama) {
-            $('#id_arsip').val(id);
-            $('#tgl_eksepdisi').val(tgl);
-            $('#nama_penerima').val(masa);
+            $('#id_ekspedisi').val(id);
+            $('#tgl_ekspedisi').val(tgl);
+            $('#nama_penerima').val(nama);
             $('#catatan_ekspedisi').modal('show');
         }
 
@@ -320,7 +320,7 @@
                 buttonsStyling: false
             }).then(function(result) {
                 if (result.value) {
-                    $('#hapus_' + id).submit();
+                    $('#hapus_data_' + id).submit();
                 }
             });
         }

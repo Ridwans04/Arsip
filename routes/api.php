@@ -25,3 +25,4 @@ Route::get('get_data_arsip', [Arsip_Controller::class, 'get_data_arsip'])->name(
 Route::get('get_arsip_lama', [Arsip_Controller::class, 'get_arsip_lama'])->name('get_arsip_lama');
 Route::get('cari_data_umum', [Arsip_Controller::class, 'cari_data_umum'])->name('cari_data_umum');
 Route::get('cari_data_penting', [Arsip_Controller::class, 'cari_data_penting'])->name('cari_data_penting');
+Route::post('update_arsip', [Arsip_Controller::class, 'update_arsip'])->name('update_arsip');

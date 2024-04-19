@@ -9,6 +9,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <input type="hidden" id="id_ekspedisi">
                         <div class="col-md-6 col-12">
                             <div class="mb-1">
                                 <label class="form-label" for="tgl_ekspedisi">Tanggal Kirim</label>
@@ -18,11 +19,8 @@
                         <div class="col-md-6 col-12">
                             <div class="mb-1">
                                 <label class="form-label" for="penerima">Nama Penerima</label>
-                                <input type="text" id="penerima" class="form-control" />
+                                <input type="text" id="nama_penerima" class="form-control" />
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-success me-1">Perbarui Data</button>
                         </div>
                     </div>
                 </div>

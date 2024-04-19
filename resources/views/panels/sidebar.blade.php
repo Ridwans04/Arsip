@@ -16,8 +16,8 @@ $configData = Helper::applClasses();
         </a>
       </li>
       <li class="nav-item nav-toggle" style="margin: -2px">
-        <a class="nav-link modern-nav-toggle pe-0" data-toggle="collapse">
-          <i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i>
+        <a class="nav-link modern-nav-toggle pe-0" style="position: relative; top:6px" data-toggle="collapse">
+          <i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x-square"></i>
           <i class="d-none d-xl-block collapse-toggle-icon font-medium-4 text-primary" data-feather="disc"
             data-ticon="disc"></i>
         </a>

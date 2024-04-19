@@ -6,6 +6,7 @@ use App\Http\Controllers\EkspedisiController;
 use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\ArsipController;
 use App\Http\Controllers\Auth\Auth_Controller;
+use App\Models\Data\Arsip_Lama;
 use App\Models\Master\Master_Surat;
 use App\Models\Data\Surat;
 
@@ -34,10 +35,11 @@ Route::post('/registrasi_store', [Auth_Controller::class, 'registrasi_store'])->
 // ROUTE ARSIP LAMA
     Route::view('arsip_lama', 'arsip_lama.data')->name('arsip_lama'); 
     Route::get('lihat_arsip/{id}', function($id){
-        $surat = Surat::find($id);
+        $surat = Arsip_Lama::find($id);
         return view('arsip_lama.lihat_arsip', compact('surat'));
     })->name('lihat_arsip');
     Route::view('catatan_arsip/{id}', 'arsip_lama.catatan_arsip')->name('catatan_arsip');
+    Route::delete('hapus_data/{id}', [Arsip_Controller::class, 'hapus_data'])->name('hapus_data');
 
 // ROUTE SURAT MASUK
 Route::prefix('arsip')->group(function () {
@@ -47,7 +49,6 @@ Route::prefix('arsip')->group(function () {
     Route::view('arsip_penting', 'arsip.arsip_penting', [
         'list_surat' => Master_Surat::where('klasifikasi', 'Penting')->get()
     ])->name('arsip_penting');
-    Route::delete('{id}', [Arsip_Controller::class, 'destroy'])->name('Hapus data');
     Route::get('{id}/edit', [Arsip_Controller::class, 'edit'])->name('Edit Surat');
     Route::put('{id}', [Arsip_Controller::class, 'update'])->name('Update Surat');
 
