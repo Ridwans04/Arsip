@@ -407,7 +407,12 @@
                         url: `{{ route('update_arsip') }}`,
                         processData: false,
                         contentType: false,
-                        data: form,
+                        data: {
+                            id_arsip: form.get('id_arsip'),
+                            kode: form.get('kode_arsip'),
+                            tanggal: form.get('tanggal_arsip'),
+                            masa: form.get('masa_arsip'),
+                        },
                         beforeSend: function () {
                             Swal.fire({
                                 html: '<div style="height:50px"><div class="spinner-border text-danger" role="status"></div></div>',

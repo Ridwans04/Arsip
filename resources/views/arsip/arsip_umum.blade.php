@@ -99,15 +99,15 @@
                                         <input type="hidden" name="id_arsip" id="id_arsip">
                                         <div class="col-12 col-md-4">
                                             <label class="form-label">Kode Arsip</label>
-                                            <input type="text" id="kode_arsip" class="form-control"  />
+                                            <input type="text" id="kode_arsip" name="kode_arsip" class="form-control"  />
                                         </div>
                                         <div class="col-12 col-md-4">
                                             <label class="form-label">Tanggal Arsip</label>
-                                            <input type="text" id="tgl_arsip" class="form-control"  />
+                                            <input type="text" id="tgl_arsip" name="tgl_arsip" class="form-control"  />
                                         </div>
                                         <div class="col-12 col-md-4">
                                             <label class="form-label">Masa Penyimpanan</label>
-                                            <input type="text" id="masa_arsip" class="form-control"  />
+                                            <input type="text" id="masa_arsip" name="masa_arsip" class="form-control"  />
                                         </div>
                                         <div class="col-12 text-center mt-2 pt-50">
                                             <button type="submit" class="btn btn-primary me-1">Perbarui</button>

@@ -49,14 +49,14 @@ class Arsip_Controller extends Controller
     public function update_arsip(Request $request)
     {
         $id = $request->input('id_arsip');
-        $kode = $request->input('kode_arsip');
-        $masa = $request->input('masa_arsip');
-        $tanggal = $request->input('tgl_arsip');
+        $kode = $request->input('kode');
+        $masa = $request->input('masa');
+        $tanggal = $request->input('tanggal');
 
         $data = Arsip_Umum::find($id);
-        $data->kode = $kode;
-        $data->masa = $masa;
-        $data->tanggal = $tanggal;
+        $data->kode_arsip = $kode;
+        $data->masa_penyimpanan = $masa;
+        $data->tanggal_arsip = $tanggal;
         $data->save();
 
         return response()->json([
