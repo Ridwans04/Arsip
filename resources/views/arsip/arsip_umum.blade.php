@@ -95,7 +95,7 @@
                                         <h1 class="mb-1">Detail dan Edit Data Arsip</h1>
                                         <p>Update data arsip jika diperlukan</p>
                                     </div>
-                                    <form onsubmit="event.preventDefault(),update_data(this)" id="update_arsip" class="row gy-1 pt-75" onsubmit="">
+                                    <form onsubmit="event.preventDefault(),update_data(this)" id="update_arsip" class="row gy-1 pt-75">
                                         <input type="hidden" name="id_arsip" id="id_arsip">
                                         <div class="col-12 col-md-4">
                                             <label class="form-label">Kode Arsip</label>

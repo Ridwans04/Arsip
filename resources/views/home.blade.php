@@ -6,6 +6,27 @@
 <!-- Kick start -->
 <div class="card">
   <div class="card-header">
+    <h3 class="card-title">INFORMASI PEMBARUAN TERHADAP APLIKASI ARSIP RJ !!!</h3>
+  </div>
+  <div class="card-body">
+    <div class="card-text">
+    <p>
+       Update Aplikasi Arsip :
+      </p>
+      <ul>
+        <li>
+          Sistem penyimpanan arsip tidak akan dilakukan lagi dari aplikasi ini melainkan digabung dengan aplikasi surat, dimana setelah membuat surat bisa langsung melakukan pengarsipan
+        </li>
+        <li>
+          
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
     <h4 class="card-title">Selamat Datang di Aplikasi Arsip Dokumen Raudlatul Jannah 🚀</h4>
   </div>
   <div class="card-body">

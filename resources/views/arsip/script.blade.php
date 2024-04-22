@@ -43,13 +43,23 @@
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/forms/pickers/form-pickers.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/extensions/ext-component-sweet-alerts.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/extensions/ext-component-toastr.js')) }}"></script>
     <script src="{{ asset('js/scripts/tool/block-ui.js') }}"></script>
     <script src="{{ asset('js/scripts/tool/sweet-alert.js') }}"></script>
+    {{-- <script src="{{ asset('js/scripts/tool/toast.js') }}"></script> --}}
     <script src="https://malsup.github.io/jquery.blockUI.js"></script>
     <script>
-
+        
+        const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
         // MENAMPILKAN MENU PEMILIHAN KLASIFIKASI SURAT
         function klasifikasi_surat() {
             var pilih_klasifikasi = document.getElementById("klasifikasi").value;
@@ -61,7 +71,7 @@
 
             $.ajax({
                 method: "get",
-                url: "{{route('pilih_klasifikasi_surat')}}?pilih_klasifikasi=" + pilih_klasifikasi,
+                url: "{{ route('pilih_klasifikasi_surat') }}?pilih_klasifikasi=" + pilih_klasifikasi,
                 dataType: 'JSON',
                 success: function(response) {
                     $('#nama_surat').empty().append($('<option>', {
@@ -131,7 +141,6 @@
                             <td style="white-space:nowrap">${val.nama_surat}</td>
                             <td>${val.kode_arsip}</td>
                             <td>${val.tanggal_arsip}</td>
-                            <td>${val.masa_penyimpanan}</td>
                             <td>${menu}</td>
                         </tr>`;
                     });
@@ -142,7 +151,6 @@
                         <th>Nama Surat</th>
                         <th>Kode Arsip</th>
                         <th>Tanggal</th>
-                        <th>Masa</th>
                         <th>Menu</th>
                     </tr>
                 </thead>
@@ -384,7 +392,7 @@
         }
 
         // MODAL DATA
-        function modal_detail(id, kode, tgl, masa){
+        function modal_detail(id, kode, tgl, masa) {
             $('#id_arsip').val(id);
             $('#kode_arsip').val(kode);
             $('#tgl_arsip').val(tgl);
@@ -392,8 +400,8 @@
             $('#modal_detail').modal('show');
         }
 
-        function update_data(){
-            const form = new FormData(document.querySelector('form#update_arsip'));
+        function update_data(obj) {
+            const form = new FormData(obj);
             Swal.fire({
                 icon: 'question',
                 title: `Apa anda yakin ingin memperbarui data ?`,
@@ -403,17 +411,15 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        type: "post",
+                        type: "put",
                         url: `{{ route('update_arsip') }}`,
-                        processData: false,
-                        contentType: false,
                         data: {
-                            id_arsip: form.get('id_arsip'),
+                            id: form.get('id_arsip'),
                             kode: form.get('kode_arsip'),
-                            tanggal: form.get('tanggal_arsip'),
+                            tanggal: form.get('tgl_arsip'),
                             masa: form.get('masa_arsip'),
                         },
-                        beforeSend: function () {
+                        beforeSend: function() {
                             Swal.fire({
                                 html: '<div style="height:50px"><div class="spinner-border text-danger" role="status"></div></div>',
                                 showConfirmButton: false,
@@ -422,20 +428,22 @@
                             });
                         },
                         dataType: 'JSON',
-                        success: function (response) {
+                        success: function(response) {
                             if (response.success) {
                                 Toast.fire({
-                                    icon: "success",
+                                    icon: 'success',
                                     title: "Data berhasil diperbarui"
                                 });
+                                $('#modal_detail').modal('hide');
                             } else {
                                 Toast.fire({
                                     icon: "error",
                                     title: "Data gagal diperbarui"
                                 });
+                                $('#modal_detail').modal('hide');
                             }
                         },
-                        error: function (response) {
+                        error: function(response) {
                             Swal.fire('Error', '', 'error')
                         }
                     })

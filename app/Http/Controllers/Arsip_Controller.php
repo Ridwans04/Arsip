@@ -48,7 +48,7 @@ class Arsip_Controller extends Controller
 
     public function update_arsip(Request $request)
     {
-        $id = $request->input('id_arsip');
+        $id = $request->input('id');
         $kode = $request->input('kode');
         $masa = $request->input('masa');
         $tanggal = $request->input('tanggal');
@@ -62,7 +62,6 @@ class Arsip_Controller extends Controller
         return response()->json([
             'success'   => true
         ]);
-        
     }
 
     public function get_arsip_lama(Request $request)
