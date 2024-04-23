@@ -89,14 +89,22 @@ class Arsip_Controller extends Controller
 
     public function cari_data_penting(Request $request)
     {
-        $ins = $request->institusi;
-        $value = $request->input('value');
-        $data = Arsip_Penting::where('nomor_surat', 'LIKE', '%' . $value . '%')
-            ->where('tanggal', '%' . $value . '%')
-            ->where('perihal', '%' . $value . '%')
-            ->where('institusi', $ins);
-
-        $surat = $data->get();
+        if($request->nama_surat == ''){
+            $this->validate($request, [
+                'nama_surat' => 'required'
+            ]);
+        }else{
+            $ins = $request->institusi;
+            $nama = $request->input('nama_surat');
+            $value = $request->input('value');
+            $data = Arsip_Penting::where('nama_surat', 'LIKE', '%' . $nama . '%')
+                ->orWhere('tanggal_arsip','LIKE', '%' . $value . '%')
+                ->orWhere('masa_penyimpanan','LIKE', '%' . $value . '%')
+                ->Where('institusi', $ins);
+    
+            $surat = $data->get();
+        }
+        
         return response()->json(['data' => $surat, 'success' => true]);
     }
 

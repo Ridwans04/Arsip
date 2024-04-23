@@ -4,21 +4,24 @@
 
 @section('content')
 <!-- Kick start -->
-<div class="card">
+<div class="card" style="background-color: #1d9f57; color: white">
   <div class="card-header">
-    <h3 class="card-title">INFORMASI PEMBARUAN TERHADAP APLIKASI ARSIP RJ !!!</h3>
+    <h1 style="color: white">INFORMASI PEMBAHARUAN TERHADAP APLIKASI ARSIP RJ !!!</h1>
   </div>
   <div class="card-body">
-    <div class="card-text">
+    <div class="card-text" style="font-size: larger; font-weight: bold">
     <p>
        Update Aplikasi Arsip :
       </p>
-      <ul>
+      <ul style="font-weight: bold">
         <li>
           Sistem penyimpanan arsip tidak akan dilakukan lagi dari aplikasi ini melainkan digabung dengan aplikasi surat, dimana setelah membuat surat bisa langsung melakukan pengarsipan
         </li>
         <li>
-          
+          Untuk akses arsip yang lama bisa menggunakan menu data arsip lama. tabel data digunakan untuk mengecek seluruh data arsip yang pernah tersimpan lalu daftar catatan untuk mengecek catatan arsip dan juga ekspedisi
+        </li>
+        <li>
+          Data lama tidak bisa diedit namun bisa dihapus dan tidak dapat menambahkan data baru
         </li>
       </ul>
     </div>

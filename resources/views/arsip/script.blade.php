@@ -48,18 +48,17 @@
     {{-- <script src="{{ asset('js/scripts/tool/toast.js') }}"></script> --}}
     <script src="https://malsup.github.io/jquery.blockUI.js"></script>
     <script>
-        
         const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-        }
-    });
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
         // MENAMPILKAN MENU PEMILIHAN KLASIFIKASI SURAT
         function klasifikasi_surat() {
             var pilih_klasifikasi = document.getElementById("klasifikasi").value;
@@ -285,11 +284,12 @@
 
         // CARI DATA ARSIP PENTING
         function cari_data_penting(institusi) {
+            var nama_surat = $('#nama_surat').val();
             var value = $('#cari_data_penting').val();
             if (value != '') {
                 $.ajax({
                     type: "GET",
-                    url: `{{ route('cari_data_penting') }}?name=${name}&value=${value}&institusi=${institusi}`,
+                    url: `{{ route('cari_data_penting') }}?nama_surat=${nama_surat}&value=${value}&institusi=${institusi}`,
                     beforeSend: function() {
                         $('#arsip').block({
                             message: '<div class="loader-box"><div class="loader-1"></div></div>',
@@ -316,7 +316,7 @@
                                     </button>
                                     <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
                                         <button
-                                            onclick="window.location.href='/surat/${val.id}/edit'"
+                                            onclick="modal_detail('${val.id}', '${val.kode_arsip}', '${val.tanggal_arsip}', '${val.masa_penyimpanan}')"
                                             type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
                                             <i data-feather="edit"></i>
                                             Edit</button>
@@ -340,10 +340,9 @@
                             `
                             html_row += `<tr>
                             <td>${val.nomor_surat}</td>
-                            <td style="white-space:nowrap">${val.nama_dokumen}</td>
-                            <td>${val.tanggal}</td>
-                            <td>${val.dari}</td>
-                            <td>${val.tujuan_surat}</td>
+                            <td style="white-space:nowrap">${val.nama_surat}</td>
+                            <td>${val.kode_arsip}</td>
+                            <td>${val.tanggal_arsip}</td>
                             <td>${menu}</td>
                         </tr>`;
                         });
@@ -352,9 +351,8 @@
                     <tr>
                         <th>Nomor Surat</th>
                         <th>Nama Surat</th>
+                        <th>Kode Arsip</th>
                         <th>Tanggal</th>
-                        <th>Dari</th>
-                        <th>Tujuan</th>
                         <th>Menu</th>
                     </tr>
                 </thead>
@@ -362,9 +360,9 @@
                     ${html_row}
                 </tbody>`;
                         if ($.fn.DataTable.isDataTable('#arsip')) {
-                            $('#arsip_penting').DataTable().destroy();
+                            $('#arsip').DataTable().destroy();
                         }
-                        $('#arsip_penting').unblock().html(html_content).DataTable({
+                        $('#arsip').unblock().html(html_content).DataTable({
                             searching: false,
                             sorting: false,
                             drawCallback: function() {
@@ -381,13 +379,13 @@
                     error: function(error) {
                         Swal.fire(
                             'Error',
-                            'Data Tidak Ditemukan',
+                            'Surat belum dipilih',
                             'error'
                         )
                     }
                 });
-            } else {
-                get_arsip_penting(institusi);
+            }else{
+                get_data_arsip(institusi)
             }
         }
 
@@ -435,6 +433,7 @@
                                     title: "Data berhasil diperbarui"
                                 });
                                 $('#modal_detail').modal('hide');
+                                get_data_arsip(institusi)
                             } else {
                                 Toast.fire({
                                     icon: "error",

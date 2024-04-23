@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use PDF;
-use App\Models\Disposisi;
-use App\Models\Surat;
-use App\Models\Tujuan;
+use App\Models\Data\Disposisi;
+use App\Models\Data\Arsip_Lama;
+use App\Models\Master\Master_PJ;
 use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 
 class DisposisiController extends Controller
@@ -28,12 +27,12 @@ class DisposisiController extends Controller
 
     public function create()
     {
-        $surat = Surat::all();
-        $suratmasuk = Surat::where('jenis_surat', 'Masuk')
+        $surat = Arsip_Lama::all();
+        $suratmasuk = Arsip_Lama::where('jenis_surat', 'Masuk')
                             ->where('institusi', Auth::user()->institusi)
                             ->orderBy('created_at', 'desc')
                             ->get();
-        $tujuan = Tujuan::all();
+        $tujuan = Master_PJ::all();
         return view('/disposisi/create', compact(['surat','tujuan','suratmasuk']));
     }
 
@@ -53,7 +52,7 @@ class DisposisiController extends Controller
 
         ],$messages);
         
-        $surat = Surat::find($request->surat_id);
+        $surat = Arsip_Lama::find($request->surat_id);
         $disposisi = $request->file('dokumen');
         $nama_disposisi =$request->nama_surat."_".$disposisi->getClientOriginalName();
 
@@ -61,7 +60,7 @@ class DisposisiController extends Controller
         $tujuan_upload_foto = 'disposisi/'.$nama.'/'.$surat->id;
         $disposisi->move($tujuan_upload_foto,$nama_disposisi);
       
-        $tujuan = Tujuan::whereIn('id', $request->tujuan_id)->get();
+        $tujuan = Master_PJ::whereIn('id', $request->tujuan_id)->get();
         // dump($tujuan);
         $tujuan_id = $tujuan->pluck('id')->join(',');
         $tujuan_nama = $tujuan->pluck('tujuan')->join(',');
@@ -79,7 +78,7 @@ class DisposisiController extends Controller
               'keterangan'          => $request->keterangan,
               'dokumen'             => $nama_disposisi
         ]);
-        $data_surat = Surat::find($surat->id);
+        $data_surat = Arsip_Lama::find($surat->id);
         $data_surat->disposisi_id = $data->id;
         $data_surat->save();
         return redirect('/disposisi/index')->with('success', 'Data berhasil disimpan');
@@ -87,8 +86,8 @@ class DisposisiController extends Controller
 
     public function buat($id)
     {
-        $surat = Surat::find($id);
-        $tujuan = Tujuan::all();
+        $surat = Arsip_Lama::find($id);
+        $tujuan = Master_PJ::all();
         return view('/disposisi/suratDisposisi', compact(['surat','tujuan']));
     }
 
@@ -108,7 +107,7 @@ class DisposisiController extends Controller
         ],$messages);
         
         
-        $surat = Surat::find($request->surat_id);
+        $surat = Arsip_Lama::find($request->surat_id);
         $disposisi = $request->file('dokumen');
         $nama_disposisi =$request->nama_surat."_".$disposisi->getClientOriginalName();
 
@@ -116,7 +115,7 @@ class DisposisiController extends Controller
         $tujuan_upload_foto = 'disposisi/'.$nama.'/'.$surat->id;
         $disposisi->move($tujuan_upload_foto,$nama_disposisi);
       
-        $tujuan = Tujuan::whereIn('id', $request->tujuan_id)->get();
+        $tujuan = Master_PJ::whereIn('id', $request->tujuan_id)->get();
         // dump($tujuan);
         $tujuan_id = $tujuan->pluck('id')->join(',');
         $tujuan_nama = $tujuan->pluck('tujuan')->join(',');
@@ -143,7 +142,7 @@ class DisposisiController extends Controller
         $read_only = $request->read_only??false;
         $disposisi = Disposisi::find($id);
 
-        $tujuan = Tujuan::all();
+        $tujuan = Master_PJ::all();
         $tujuan_id = $disposisi->tujuan_id ? explode(',', $disposisi->tujuan_id) : '';
         // $tujuan_nama = $tujuan->pluck('tujuan')->split(',');
         return view('disposisi.edit', compact(['disposisi','tujuan', 'tujuan_id', 'read_only' ]));
@@ -152,10 +151,10 @@ class DisposisiController extends Controller
     public function update($id, Request $request)
     {
         $disposisi = Disposisi::find($id);
-        $tujuan = Tujuan::all();
+        $tujuan = Master_PJ::all();
 
         if ($request->dokumen=="" && !empty($disposisi->dokumen)) {
-            $tujuan = Tujuan::whereIn('id', $request->tujuan_id)->get();
+            $tujuan = Master_PJ::whereIn('id', $request->tujuan_id)->get();
             // dump($tujuan);
             $tujuan_id = $tujuan->pluck('id')->join(',');
             $tujuan_nama = $tujuan->pluck('tujuan')->join(',');
@@ -176,7 +175,7 @@ class DisposisiController extends Controller
             $nama = Auth::user()->institusi;
             $tujuan_upload_foto = 'disposisi/'.$nama.'/'.$disposisi->surat_id;
             $data->move($tujuan_upload_foto,$nama_disposisi);
-            $tujuan = Tujuan::whereIn('id', $request->tujuan_id)->get();
+            $tujuan = Master_PJ::whereIn('id', $request->tujuan_id)->get();
             // dump($tujuan);
             $tujuan_id = $tujuan->pluck('id')->join(',');
             $tujuan_nama = $tujuan->pluck('tujuan')->join(',');
@@ -204,7 +203,7 @@ class DisposisiController extends Controller
     public function destroy($id)
     {
         $disposisi = Disposisi::find($id);
-        $data_surat = Surat::find($disposisi->surat_id);
+        $data_surat = Arsip_Lama::find($disposisi->surat_id);
         $data_surat->disposisi_id = null;
         $data_surat->save();
        

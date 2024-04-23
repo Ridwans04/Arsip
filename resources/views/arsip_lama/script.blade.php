@@ -186,7 +186,7 @@
             if (value != '') {
                 $.ajax({
                     type: "GET",
-                    url: `{{ route('cari_data_penting') }}?name=${name}&value=${value}&institusi=${institusi}`,
+                    url: `{{ route('cari_data_penting') }}?&value=${value}&institusi=${institusi}`,
                     beforeSend: function() {
                         $('#arsip').block({
                             message: '<div class="loader-box"><div class="loader-1"></div></div>',
@@ -259,9 +259,9 @@
                     ${html_row}
                 </tbody>`;
                         if ($.fn.DataTable.isDataTable('#arsip')) {
-                            $('#arsip_penting').DataTable().destroy();
+                            $('#arsip').DataTable().destroy();
                         }
-                        $('#arsip_penting').unblock().html(html_content).DataTable({
+                        $('#arsip').unblock().html(html_content).DataTable({
                             searching: false,
                             sorting: false,
                             drawCallback: function() {
@@ -284,7 +284,7 @@
                     }
                 });
             } else {
-                get_arsip_penting(institusi);
+                get_arsip_lama(institusi);
             }
         }
 
