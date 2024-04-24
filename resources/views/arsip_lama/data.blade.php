@@ -26,8 +26,7 @@
                             </div>
                             <div class="col-md-10" style="margin-left: 7px">
                                 <select name="nama_surat" id="nama_surat" class="hide-search form-select"
-                                    onchange="get_arsip_lama('{{ $institusi }}')">
-                                    <option value="">Pilih Nama Surat</option>
+                                    onchange="get_arsip_lama('{{ $institusi }}')">             
                                 </select>
                             </div>
                         </div>
@@ -51,25 +50,25 @@
                                     <div class="col-md-6 col-12">
                                         <div class="mb-1">
                                             <label class="form-label" for="tanggal">Tanggal</label>
-                                            <input type="text" name="tanggal" id="tanggal" class="form-control"
-                                                oninput="cari_data('tanggal','{{ $institusi }}')"
+                                            <input type="text" name="tanggal" id="tanggal" class="form-control flatpickr-basic"
+                                                oninput="cari_data('tanggal_arsip','{{ $institusi }}')"
                                                 placeholder="Tahun-Bulan-Hari" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="mb-1">
-                                            <label class="form-label" for="tujuan_surat">Tujuan Surat</label>
+                                            <label class="form-label" for="tujuan_surat">Kode Arsip</label>
                                             <input type="text" id="tujuan_surat" class="form-control" name="tujuan_surat"
-                                                oninput="cari_data('tujuan_surat','{{ $institusi }}')"
+                                                oninput="cari_data('kode_arsip','{{ $institusi }}')"
                                                 placeholder="Tulis Disini" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="mb-1">
-                                            <label class="form-label" for="perihal">Perihal</label>
-                                            <input type="text" id="perihal" class="form-control" name="perihal"
+                                            <label class="form-label" for="perihal">Masa</label>
+                                            <input type="text" id="masa" class="form-control" name="perihal"
                                                 placeholder="Tulis Disini"
-                                                oninput="cari_data('perihal','{{ $institusi }}')" />
+                                                oninput="cari_data('masa_penyimpanan','{{ $institusi }}')" />
                                         </div>
                                     </div>
                                 </div>

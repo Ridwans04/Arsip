@@ -29,8 +29,8 @@
                                     <span class="input-group-text cursor-pointer" style="border: 2px solid #7e7e81;"><i
                                             data-feather="search"></i></span>
                                     <input type="text" id="cari_data_penting" class="form-control"
-                                        style="padding-left: 4px" oninput="cari_data_penting('{{ $institusi }}')"
-                                        placeholder="    Cari Data" name="nomor_surat" />
+                                        style="padding-left: 4px;" oninput="cari_data_penting('{{ $institusi }}')"
+                                        placeholder="Cari Data....." name="nomor_surat" />
                                 </div>
                             </div>
                         </div>

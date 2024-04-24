@@ -12,12 +12,12 @@ $configData = Helper::applClasses();
             <!-- <img src="images/logo/logo.png" class="img-fluid" alt="Brand logo"> -->
             <img src="{{asset('images/logo/logo.png')}}" class="img-fluid "  alt="Brand logo">
           </span>
-            <h2 class="brand-text" style="padding-left: 0.8rem">Arsip RJ</h2>
+            <h2 class="brand-text" style="padding-left: 0.8rem">ARSIP RJ</h2>
         </a>
       </li>
       <li class="nav-item nav-toggle" style="margin: -2px">
         <a class="nav-link modern-nav-toggle pe-0" style="position: relative; top:6px" data-toggle="collapse">
-          <i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x-square"></i>
+          <i class="d-block d-xl-none toggle-icon font-medium-4" style="color: #499969" data-feather="x-square"></i>
           <i class="d-none d-xl-block collapse-toggle-icon font-medium-4 text-primary" data-feather="disc"
             data-ticon="disc"></i>
         </a>

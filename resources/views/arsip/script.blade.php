@@ -278,7 +278,7 @@
                     }
                 });
             } else {
-                get_arsip_umum(institusi);
+                get_data_arsip(institusi);
             }
         }
 
@@ -381,7 +381,8 @@
                             'Error',
                             'Surat belum dipilih',
                             'error'
-                        )
+                        ),
+                        $('#cari_data_penting').val('');
                     }
                 });
             }else{

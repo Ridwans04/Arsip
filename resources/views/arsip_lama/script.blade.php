@@ -58,7 +58,7 @@
                 dataType: 'JSON',
                 success: function(response) {
                     $('#nama_surat').empty().append($('<option>', {
-                        value: "Pilih Nama Surat",
+                        value: "",
                         text: "Pilih Nama Surat",
                         selected: true,
                         disabled: true
@@ -180,13 +180,16 @@
             });
         }
 
-        // CARI DATA ARSIP PENTING
-        function cari_data_penting(institusi) {
-            var value = $('#cari_data_penting').val();
+        // CARI DATA ARSIP UMUM
+        function cari_data(name, institusi) {
+            var value = $('#' + name).val();
+            var arsip = 'arsip_lama'
+            var nama_surat = $('#nama_surat').val();
+            console.log(value);
             if (value != '') {
                 $.ajax({
                     type: "GET",
-                    url: `{{ route('cari_data_penting') }}?&value=${value}&institusi=${institusi}`,
+                    url: `{{ route('cari_data_umum') }}?name=${name}&value=${value}&institusi=${institusi}&arsip=${arsip}&nama_surat=${nama_surat}`,
                     beforeSend: function() {
                         $('#arsip').block({
                             message: '<div class="loader-box"><div class="loader-1"></div></div>',
@@ -218,26 +221,16 @@
                                             <i data-feather="edit"></i>
                                             Edit</button>
                                         <a href="arsip/lihat_arsip/${val.id}" target="_blank"
-                                            class="btn btn-icon btn-success w-100 mb-1 text-start"><i
+                                            class="btn btn-icon btn-info w-100 mb-1 text-start"><i
                                                 data-feather="file-plus"></i>
                                             Lihat</a>
-                                        <form id="hapus_${val.id}"
-                                            action="/surat/${val.id}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button"
-                                                class="btn btn-icon btn-danger w-100 mb-1 text-start"
-                                                onclick="notif_delete(${val.id})" value="delete">
-                                                <i data-feather="trash"></i> Hapus
-                                            </button>
-                                        </form>
                                     </div>
                                 </div>
                             </td>
                             `
                             html_row += `<tr>
                             <td>${val.nomor_surat}</td>
-                            <td style="white-space:nowrap">${val.nama_dokumen}</td>
+                            <td style="white-space:nowrap">${val.nama_surat}</td>
                             <td>${val.tanggal}</td>
                             <td>${val.dari}</td>
                             <td>${val.tujuan_surat}</td>
@@ -245,19 +238,19 @@
                         </tr>`;
                         });
                         var html_content = `
-                <thead>
-                    <tr>
-                        <th>Nomor Surat</th>
-                        <th>Nama Surat</th>
-                        <th>Tanggal</th>
-                        <th>Dari</th>
-                        <th>Tujuan</th>
-                        <th>Menu</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${html_row}
-                </tbody>`;
+                        <thead>
+                            <tr>
+                                <th>Nomor Surat</th>
+                                <th>Nama Surat</th>
+                                <th>Tanggal</th>
+                                <th>Dari</th>
+                                <th>Tujuan</th>
+                                <th>Menu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${html_row}
+                        </tbody>`;
                         if ($.fn.DataTable.isDataTable('#arsip')) {
                             $('#arsip').DataTable().destroy();
                         }
@@ -274,13 +267,15 @@
                                 });
                             }
                         });
+                        $('#'.name).val();
                     },
                     error: function(error) {
                         Swal.fire(
                             'Error',
-                            'Data Tidak Ditemukan',
+                            'Pilih Surat Dahulu',
                             'error'
-                        )
+                        );
+                        var value = $('#' + name).val('');
                     }
                 });
             } else {
