@@ -49,6 +49,7 @@
             pilih_klasifikasi_surat(pilih_klasifikasi);
         }
 
+        // MENAMPILKAN PILIHAN SURAT BERDASARKAN KLASIFIKASI
         const pilih_klasifikasi_surat = function(pilih_klasifikasi) {
             $('#nama_surat option').not(':first').remove();
 
@@ -95,192 +96,145 @@
                 },
                 dataType: "JSON",
                 success: function(response) {
-                    var html_row = "";
-                    var menu = "";
-                    var date = new Date();
-                    $.each(response.data, function(key, val) {
-                        menu =
-                            `<div class="btn-group">
-                                    <button class="btn btn-success dropdown-toggle" type="button"
-                                        id="dropdownMenuButton2" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i data-feather="list"></i>
-                                    </button>
-                                    <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
-                                        <a href="lihat_arsip/${val.id}" target="_blank"
-                                            class="btn btn-icon btn-info w-100 mb-1 text-start"><i
-                                                data-feather="file-plus"></i>
-                                            Lihat</a>
-                                        <button
-                                            onclick="detail_arsip('${val.id}','${val.arsip_id}', '${val.kode_arsip}', '${val.tanggal_arsip}', '${val.masa}')"
-                                            type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
-                                            <i data-feather="edit"></i>
-                                            Edit</button>
-                                        <button class="btn btn-icon btn-secondary w-100 mb-1 text-start" onclick="detail_ekspedisi('${val.id}', '${val.tanggal_kirim}', '${val.nama_penerima}')">
-                                            <i data-feather="message-square"></i>
-                                            Ekspedisi</button>
-                                        <form id="hapus_data_${val.id}"
-                                            action="hapus_data/${val.id}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button"
-                                                class="btn btn-icon btn-danger w-100 mb-1 text-start"
-                                                onclick="notif_delete(${val.id})" value="delete">
-                                                <i data-feather="trash"></i> Hapus
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </td>
-                            `
-                        html_row += `<tr>
-                            <td>${val.nomor_surat}</td>
-                            <td style="white-space:nowrap">${val.nama_surat}</td>
-                            <td>${val.tanggal}</td>
-                            <td>${val.tujuan_surat}</td>
-                            <td>${menu}</td>
-                        </tr>`;
-                    });
-                    var html_content = `
-                <thead>
-                    <tr>
-                        <th>Nomor Surat</th>
-                        <th>Nama Surat</th>
-                        <th>Tanggal</th>
-                        <th>Tujuan</th>
-                        <th>Menu</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${html_row}
-                </tbody>`;
-                    if ($.fn.DataTable.isDataTable('#arsip')) {
-                        $('#arsip').DataTable().destroy();
-                    }
-                    $('#arsip').unblock().html(html_content).DataTable({
-                        searching: false,
-                        sorting: false,
-                        drawCallback: function() {
-                            $('#arsip [data-feather]').each(function() {
-                                var icon = $(this).data('feather');
-                                $(this).empty().append(feather.icons[icon].toSvg({
-                                    width: 14,
-                                    height: 14
-                                }));
-                            });
-                        }
-                    });
+                    var tableContent = generateTableContent(response.data);
+                    initializeDataTable(tableContent);
+                    $('#arsip').unblock();
                 },
                 error: function(error) {
-                    Swal.fire(
-                        'Kesalahan Data',
-                        '',
-                        'error'
-                    )
+                    showErrorMessage('Pilih Surat Dahulu');
+                    $('#' + name).val('');
                 }
             });
         }
 
-        // CARI DATA ARSIP UMUM
-        function cari_data(name, institusi) {
-            var value = $('#' + name).val();
-            var arsip = 'arsip_lama'
-            var nama_surat = $('#nama_surat').val();
-            console.log(value);
-            if (value != '') {
-                $.ajax({
-                    type: "GET",
-                    url: `{{ route('cari_data_umum') }}?name=${name}&value=${value}&institusi=${institusi}&arsip=${arsip}&nama_surat=${nama_surat}`,
-                    beforeSend: function() {
-                        $('#arsip').block({
-                            message: '<div class="loader-box"><div class="loader-1"></div></div>',
-                            css: {
-                                backgroundColor: 'transparent',
-                                border: '0'
-                            },
-                            overlayCSS: {
-                                backgroundColor: '#fff',
-                                opacity: 0.8
-                            }
-                        });
-                    },
-                    dataType: "JSON",
-                    success: function(response) {
-                        var html_row = "";
-                        var menu = "";
-                        $.each(response.data, function(key, val) {
-                            menu =
-                                `<div class="btn-group">
-                                    <button class="btn btn-success dropdown-toggle" type="button"
-                                        id="dropdownMenuButton2" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i data-feather="list"></i>
-                                    </button>
-                                    <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
-                                        <button
-                                            onclick="window.location.href='/surat/${val.id}/edit'"
-                                            type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
-                                            <i data-feather="edit"></i>
-                                            Edit</button>
-                                        <a href="arsip/lihat_arsip/${val.id}" target="_blank"
-                                            class="btn btn-icon btn-info w-100 mb-1 text-start"><i
-                                                data-feather="file-plus"></i>
-                                            Lihat</a>
-                                    </div>
-                                </div>
-                            </td>
-                            `
-                            html_row += `<tr>
+        // MEMBUAT PESAN ERROR
+        function ErrorMsg(message) {
+            Swal.fire('Error', message, 'error');
+        }
+
+        function initializeDataTable(content) {
+            if ($.fn.DataTable.isDataTable('#arsip')) {
+                $('#arsip').DataTable().destroy();
+            }
+
+            $('#arsip').html(content).DataTable({
+                searching: false,
+                sorting: false,
+                drawCallback: function() {
+                    $('#arsip [data-feather]').each(function() {
+                        var icon = $(this).data('feather');
+                        $(this).empty().append(feather.icons[icon].toSvg({
+                            width: 14,
+                            height: 14
+                        }));
+                    });
+                }
+            });
+        }
+
+        // FUNGSI MENGAMBIL TABEL DAN DATA ARSIP
+        function generateTableContent(data) {
+            var htmlRow = "";
+
+            $.each(data, function(key, val) {
+                menu =
+                    `<div class="btn-group">
+                        <button class="btn btn-success dropdown-toggle" type="button"
+                            id="dropdownMenuButton2" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i data-feather="list"></i>
+                        </button>
+                        <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
+                            <a href="lihat_arsip/${val.id}" target="_blank"
+                                class="btn btn-icon btn-info w-100 mb-1 text-start"><i
+                                    data-feather="file-plus"></i>
+                                Lihat</a>
+                            <button
+                                onclick="detail_arsip('${val.id}','${val.arsip_id}', '${val.kode_arsip}', '${val.tanggal_arsip}', '${val.masa}')"
+                                type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
+                                <i data-feather="edit"></i>
+                                Edit</button>
+                            <button class="btn btn-icon btn-secondary w-100 mb-1 text-start" onclick="detail_ekspedisi('${val.id}', '${val.tanggal_kirim}', '${val.nama_penerima}')">
+                                <i data-feather="message-square"></i>
+                                Ekspedisi</button>
+                            <form id="hapus_data_${val.id}"
+                                action="hapus_data/${val.id}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <button type="button"
+                                    class="btn btn-icon btn-danger w-100 mb-1 text-start"
+                                    onclick="notif_delete(${val.id})" value="delete">
+                                    <i data-feather="trash"></i> Hapus
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+                `
+                htmlRow += `<tr>
                             <td>${val.nomor_surat}</td>
                             <td style="white-space:nowrap">${val.nama_surat}</td>
                             <td>${val.tanggal}</td>
-                            <td>${val.dari}</td>
                             <td>${val.tujuan_surat}</td>
                             <td>${menu}</td>
                         </tr>`;
-                        });
-                        var html_content = `
-                        <thead>
-                            <tr>
-                                <th>Nomor Surat</th>
-                                <th>Nama Surat</th>
-                                <th>Tanggal</th>
-                                <th>Dari</th>
-                                <th>Tujuan</th>
-                                <th>Menu</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${html_row}
-                        </tbody>`;
-                        if ($.fn.DataTable.isDataTable('#arsip')) {
-                            $('#arsip').DataTable().destroy();
-                        }
-                        $('#arsip').unblock().html(html_content).DataTable({
-                            searching: false,
-                            sorting: false,
-                            drawCallback: function() {
-                                $('#arsip [data-feather]').each(function() {
-                                    var icon = $(this).data('feather');
-                                    $(this).empty().append(feather.icons[icon].toSvg({
-                                        width: 14,
-                                        height: 14
-                                    }));
-                                });
-                            }
-                        });
-                        $('#'.name).val();
-                    },
-                    error: function(error) {
-                        Swal.fire(
-                            'Error',
-                            'Pilih Surat Dahulu',
-                            'error'
-                        );
-                        var value = $('#' + name).val('');
-                    }
-                });
-            } else {
-                get_arsip_lama(institusi);
+            });
+            return `
+            <thead>
+                <tr>
+                    <th>Nomor Surat</th>
+                    <th>Nama Surat</th>
+                    <th>Tanggal</th>
+                    <th>Tujuan Surat</th>
+                    <th>Menu</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${htmlRow}
+            </tbody>`;
+        }
+
+        // CARI DATA ARSIP
+        function cari_data(name, institusi) {
+            var value = $('#' + name).val();
+            var nama_surat = $('#nama_surat').val();
+            var arsip = 'arsip_lama';
+
+            if (!nama_surat) {
+                ErrorMsg('Pilih Surat Dahulu');
+                $('#' + name).val('');
+                return;
             }
+            if (value === '') {
+                return;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: `{{ route('cari_data_umum') }}?name=${name}&value=${value}&institusi=${institusi}&arsip=${arsip}&nama_surat=${nama_surat}`,
+                beforeSend: function() {
+                    $('#arsip').block({
+                        message: '<div class="loader-box"><div class="loader-1"></div></div>',
+                        css: {
+                            backgroundColor: 'transparent',
+                            border: '0'
+                        },
+                        overlayCSS: {
+                            backgroundColor: '#fff',
+                            opacity: 0.8
+                        }
+                    });
+                },
+                dataType: "JSON",
+                success: function(response) {
+                    var tableContent = generateTableContent(response.data);
+                    initializeDataTable(tableContent);
+                    $('#arsip').unblock();
+                },
+                error: function(error) {
+                    showErrorMessage('Pilih Surat Dahulu');
+                    $('#' + name).val('');
+                }
+            });
         }
 
         // MODAL CATATAN ARSIP

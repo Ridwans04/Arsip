@@ -18,8 +18,8 @@
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="mb-1">
-                                <label class="form-label" for="penerima">Nama Penerima</label>
-                                <input type="text" id="nama_penerima" class="form-control" />
+                                <label class="form-label" for="nama_penerima">Nama Penerima</label>
+                                <input type="text" id="nama_penerima" class="form-control"/>
                             </div>
                         </div>
                     </div>

@@ -15,8 +15,8 @@ class Arsip_Lama extends Model
     public function get_data($ins, $nama_surat)
     {
         return DB::table('surat_lama')
-            ->select(['surat_lama.*', 'arsip_lama.kode_arsip', 'arsip_lama.tanggal_arsip', 'arsip_lama.masa', 'ekspedisi.tanggal_kirim', 'ekspedisi.nama_penerima'])
-            ->leftJoin('arsip_lama', 'surat_lama.arsip_id', '=', 'arsip_lama.id')
+            ->select(['surat_lama.*', 'catatan_arsip_lama.kode_arsip', 'catatan_arsip_lama.tanggal_arsip', 'catatan_arsip_lama.masa', 'ekspedisi.tanggal_kirim', 'ekspedisi.nama_penerima'])
+            ->leftJoin('catatan_arsip_lama', 'surat_lama.arsip_id', '=', 'catatan_arsip_lama.id')
             ->leftJoin('ekspedisi', 'surat_lama.ekspedisi_id', '=', 'ekspedisi.id')
             ->where('surat_lama.nama_surat', $nama_surat)
             ->where('surat_lama.institusi', $ins)

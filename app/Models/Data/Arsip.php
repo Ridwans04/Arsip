@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Arsip extends Model
 {
     use HasFactory;
-    protected $table = 'arsip_lama';
+    protected $table = 'catatan_arsip_lama';
     protected $guarded = [];
 }

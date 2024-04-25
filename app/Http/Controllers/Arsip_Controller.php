@@ -78,24 +78,22 @@ class Arsip_Controller extends Controller
 
     public function cari_data_umum(Request $request)
     {
-        if ($request->input('nama_surat') != null) {
-            $ins = $request->institusi;
-            $name = $request->name;
-            $nama_surat = $request->nama_surat;
-            $value = $request->input('value');
-            if ($request->arsip == 'arsip_lama') {
-                $data = Arsip_Lama::where('nama_surat', $nama_surat)
-                    ->where($name, 'LIKE', '%' . $value . '%')
-                    ->where('institusi', $ins)
-                    ->get();
-            } else {
-                $data = Arsip_Umum::where('nama_surat', $nama_surat)
-                    ->where($name, 'LIKE', '%' . $value . '%')
-                    ->where('institusi', $ins)
-                    ->get();
-            }
-            return response()->json(['data' => $data, 'success' => true]);
+        $ins = $request->institusi;
+        $name = $request->name;
+        $nama_surat = $request->nama_surat;
+        $value = $request->input('value');
+        if ($request->arsip == 'arsip_lama') {
+            $data = Arsip_Lama::where('nama_surat', $nama_surat)
+                ->where($name, 'LIKE', '%' . $value . '%')
+                ->where('institusi', $ins)
+                ->get();
+        } else {
+            $data = Arsip_Umum::where('nama_surat', $nama_surat)
+                ->where($name, 'LIKE', '%' . $value . '%')
+                ->where('institusi', $ins)
+                ->get();
         }
+        return response()->json(['data' => $data, 'success' => true]);
     }
 
     public function cari_data_penting(Request $request)
