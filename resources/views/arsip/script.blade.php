@@ -48,6 +48,7 @@
     {{-- <script src="{{ asset('js/scripts/tool/toast.js') }}"></script> --}}
     <script src="https://malsup.github.io/jquery.blockUI.js"></script>
     <script>
+        // TOASTR
         const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -59,12 +60,19 @@
                 toast.onmouseleave = Swal.resumeTimer;
             }
         });
+
+         // MEMBUAT PESAN ERROR
+         function ErrorMsg(message) {
+            Swal.fire('Error', message, 'error');
+        }
+
         // MENAMPILKAN MENU PEMILIHAN KLASIFIKASI SURAT
         function klasifikasi_surat() {
             var pilih_klasifikasi = document.getElementById("klasifikasi").value;
             pilih_klasifikasi_surat(pilih_klasifikasi);
         }
 
+        // MENAMPILKAN SURAT BERDASARKAN KLASIFIKASI
         const pilih_klasifikasi_surat = function(pilih_klasifikasi) {
             $('#nama_surat option').not(':first').remove();
 
@@ -117,24 +125,22 @@
                     $.each(response.data, function(key, val) {
                         menu =
                             `<div class="btn-group">
-                                    <button class="btn btn-success dropdown-toggle" type="button"
-                                        id="dropdownMenuButton2" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i data-feather="list"></i>
-                                    </button>
-                                    <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
-                                        <button
-                                            onclick="modal_detail('${val.id}', '${val.kode_arsip}', '${val.tanggal_arsip}', '${val.masa_penyimpanan}')"
-                                            type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
-                                            <i data-feather="edit"></i>
-                                            Edit</button>
-                                        <a href="arsip/lihat_arsip/${val.id}" target="_blank"
-                                            class="btn btn-icon btn-info w-100 mb-1 text-start"><i
-                                                data-feather="file-plus"></i>
-                                            Lihat</a>
-                                    </div>
+                                <button class="btn btn-success dropdown-toggle" type="button"
+                                    id="dropdownMenuButton2" data-bs-toggle="dropdown"
+                                    aria-expanded="false"><i data-feather="list"></i>
+                                </button>
+                                <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
+                                    <button
+                                        onclick="modal_detail('${val.id}', '${val.kode_arsip}', '${val.tanggal_arsip}', '${val.masa_penyimpanan}')"
+                                        type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
+                                        <i data-feather="edit"></i>
+                                        Edit</button>
+                                    <a href="arsip/lihat_arsip/${val.id}" target="_blank"
+                                        class="btn btn-icon btn-info w-100 mb-1 text-start"><i
+                                            data-feather="file-plus"></i>
+                                        Lihat</a>
                                 </div>
-                            </td>
-                            `
+                            </div>`
                         html_row += `<tr>
                             <td>${val.nomor_surat}</td>
                             <td style="white-space:nowrap">${val.nama_surat}</td>
@@ -175,8 +181,8 @@
                 },
                 error: function(error) {
                     Swal.fire(
+                        'Error',
                         'Kesalahan Data',
-                        '',
                         'error'
                     )
                 }
@@ -186,10 +192,18 @@
         // CARI DATA ARSIP UMUM
         function cari_data(name, institusi) {
             var value = $('#' + name).val();
+            var nama_surat = $('#nama_surat').val();
+            
+            if (!nama_surat) {
+                ErrorMsg('Pilih Surat Dahulu');
+                $('#' + name).val('');
+                return;
+            }
+
             if (value != '') {
                 $.ajax({
                     type: "GET",
-                    url: `{{ route('cari_data_umum') }}?name=${name}&value=${value}&institusi=${institusi}`,
+                    url: `{{ route('cari_data_umum') }}?name=${name}&value=${value}&institusi=${institusi}&nama_surat=${nama_surat}`,
                     beforeSend: function() {
                         $('#arsip').block({
                             message: '<div class="loader-box"><div class="loader-1"></div></div>',
@@ -209,14 +223,15 @@
                         var menu = "";
                         $.each(response.data, function(key, val) {
                             menu =
-                                `<div class="btn-group">
+                            `
+                                <div class="btn-group">
                                     <button class="btn btn-success dropdown-toggle" type="button"
                                         id="dropdownMenuButton2" data-bs-toggle="dropdown"
                                         aria-expanded="false"><i data-feather="list"></i>
                                     </button>
                                     <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
                                         <button
-                                            onclick="window.location.href='/surat/${val.id}/edit'"
+                                            onclick="modal_detail('${val.id}', '${val.kode_arsip}', '${val.tanggal_arsip}', '${val.masa_penyimpanan}')"
                                             type="button" class="btn btn-icon btn-success w-100 mb-1 text-start">
                                             <i data-feather="edit"></i>
                                             Edit</button>
@@ -226,31 +241,28 @@
                                             Lihat</a>
                                     </div>
                                 </div>
-                            </td>
                             `
                             html_row += `<tr>
-                            <td>${val.nomor_surat}</td>
-                            <td style="white-space:nowrap">${val.nama_surat}</td>
-                            <td>${val.tanggal}</td>
-                            <td>${val.dari}</td>
-                            <td>${val.tujuan_surat}</td>
-                            <td>${menu}</td>
-                        </tr>`;
+                                    <td>${val.nomor_surat}</td>
+                                    <td style="white-space:nowrap">${val.nama_surat}</td>
+                                    <td>${val.kode_arsip}</td>
+                                    <td>${val.tanggal_arsip}</td>
+                                    <td>${menu}</td>
+                                </tr>`;
                         });
                         var html_content = `
-                <thead>
-                    <tr>
-                        <th>Nomor Surat</th>
-                        <th>Nama Surat</th>
-                        <th>Tanggal</th>
-                        <th>Dari</th>
-                        <th>Tujuan</th>
-                        <th>Menu</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${html_row}
-                </tbody>`;
+                            <thead>
+                                <tr>
+                                    <th>Nomor Surat</th>
+                                    <th>Nama Surat</th>
+                                    <th>Kode Arsip</th>
+                                    <th>Tanggal</th>
+                                    <th>Menu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${html_row}
+                            </tbody>`;
                         if ($.fn.DataTable.isDataTable('#arsip')) {
                             $('#arsip').DataTable().destroy();
                         }
@@ -267,18 +279,16 @@
                                 });
                             }
                         });
-                        $('#'.name).val();
                     },
                     error: function(error) {
                         Swal.fire(
                             'Error',
-                            'Data Tidak Ditemukan',
+                            'Surat belum dipilih',
                             'error'
-                        )
+                        ),
+                        $('#' + name).val('');
                     }
                 });
-            } else {
-                get_data_arsip(institusi);
             }
         }
 
@@ -390,15 +400,16 @@
             }
         }
 
-        // MODAL DATA
+        // MODAL DETAIL DATA
         function modal_detail(id, kode, tgl, masa) {
             $('#id_arsip').val(id);
-            $('#kode_arsip').val(kode);
+            $('#kode').val(kode);
             $('#tgl_arsip').val(tgl);
             $('#masa_arsip').val(masa);
             $('#modal_detail').modal('show');
         }
 
+        // FUNGSI MEMPERBARUI DATA
         function update_data(obj) {
             const form = new FormData(obj);
             Swal.fire({
@@ -414,7 +425,7 @@
                         url: `{{ route('update_arsip') }}`,
                         data: {
                             id: form.get('id_arsip'),
-                            kode: form.get('kode_arsip'),
+                            kode: form.get('kode'),
                             tanggal: form.get('tgl_arsip'),
                             masa: form.get('masa_arsip'),
                         },

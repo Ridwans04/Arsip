@@ -53,108 +53,68 @@
                                         <td>{{ $d->catatan }}</td>
                                         <td>{{ $d->tindak_lanjut }}</td>
                                         <td>{{ $d->keterangan }}</td>
-                                        @if (Auth::user()->level == 'Admin')
+                                        {{-- @if (Auth::user()->level == 'Admin') --}}
                                             <td>
-                                                <!-- <div class="btn-group" role="group" aria-label="Basic example"> -->
-                                                <div class="demo-inline-spacing" role="group" style="">
-                                                    <button
-                                                        onclick="window.location.href='/disposisi/{{ $d->id }}/edit'"
-                                                        data-bs-toggle="tooltip" data-bs-placement="right"
-                                                        title="Edit disposisi" type="button"
-                                                        class="btn btn-icon btn-success ">
-                                                        <i data-feather="edit"></i>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-success dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton2" data-bs-toggle="dropdown"
+                                                        aria-expanded="false"><i data-feather="list"></i>
                                                     </button>
-                                                    <form id="hapus_{{ $d->id }}"
-                                                        action="/surat/{{ $d->id }}" method="POST">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button type="button" class="btn btn-icon btn-danger"
+                                                    <div class="dropdown-menu p-1" aria-labelledby="dropdownMenuButton2">
+                                                        <button
+                                                            onclick="window.location.href='/disposisi/{{ $d->id }}/edit'"
                                                             data-bs-toggle="tooltip" data-bs-placement="right"
-                                                            title="Hapus Disposisi"
-                                                            onclick="notif_delete({{ $d->id }})" value="delete">
-                                                            <i data-feather="trash"></i>
+                                                            title="Edit disposisi" type="button"
+                                                            class="btn btn-icon btn-success text-start mb-1 w-100">
+                                                            <i data-feather="edit"></i> Edit
                                                         </button>
-                                                    </form>
-                                                    {{-- <a href="{{url ('disposisi/lihatfoto', $d->id)}}" target="_blank" class="btn btn-primary btn-sm">Detail</a> --}}
-                                                    <div class="scrolling-inside-modal">
-                                                        <!-- Button trigger modal -->
-                                                        <button type="button" class="btn btn-icon btn-success"
-                                                            title = "Lihat File Disposisi" data-bs-toggle="modal"
-                                                            data-bs-target="#dispo{{ $d->id }}">
-                                                            <i data-feather="file"></i>
-                                                        </button>
-
-                                                        <!-- MODAL GAMBAR DISPOSISI-->
-                                                        <div class="modal fade" id="dispo{{ $d->id }}"
-                                                            tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
-                                                            aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-scrollable">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title"
-                                                                            id="exampleModalScrollableTitle">Dokumen
-                                                                            Disposisi</h5>
-                                                                        <button type="button" class="btn-close"
-                                                                            data-bs-dismiss="modal"
-                                                                            aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        {{-- ambil gambar dari public --}}
-                                                                        <img class="img-fluid" alt=""
-                                                                            src="{{ asset('/disposisi/' . $d->institusi . '/' . $d->surat_id . '/' . $d->dokumen) }}"
-                                                                            width="100%">
-
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-primary"
-                                                                            data-bs-dismiss="modal">Selesai</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                            </td>
-                                        @else
-                                            <td>
-                                                <div class="scrolling-inside-modal">
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button" title = "Lihat File Disposisi"
-                                                        class="btn btn-icon btn-success" data-bs-toggle="modal"
-                                                        data-bs-target="#dispo{{ $d->id }}">
-                                                        <i data-feather="file"></i>
-                                                    </button>
-
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="dispo{{ $d->id }}" tabindex="-1"
-                                                        aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-
-                                                        <div class="modal-dialog modal-dialog-scrollable">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title"
-                                                                        id="exampleModalScrollableTitle">Dokumen
-                                                                        Disposisi</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    {{-- ambil gambar dari public --}}
-                                                                    <img class="img-fluid" alt=""
-                                                                        src="{{ asset('disposisi/' . $d->institusi . '/' . $d->surat_id . '/' . $d->dokumen) }}"
-                                                                        width="100%">
-
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-primary"
-                                                                        data-bs-dismiss="modal">Selesai</button>
-                                                                </div>
-                                                            </div>
+                                                        <form id="hapus_{{ $d->id }}"
+                                                            action="/surat/{{ $d->id }}" method="POST">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button type="button" class="btn btn-icon btn-danger text-start mb-1 w-100"
+                                                                data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                title="Hapus Disposisi"
+                                                                onclick="notif_delete({{ $d->id }})" value="delete">
+                                                                <i data-feather="trash"></i> Hapus
+                                                            </button>
+                                                        </form>
+                                                        <div class="scrolling-inside-modal">
+                                                            <!-- Button trigger modal -->
+                                                            <button type="button" class="btn btn-icon btn-info text-start w-100"
+                                                                title = "Lihat File Disposisi" data-bs-toggle="modal"
+                                                                data-bs-target="#dispo{{ $d->id }}">
+                                                                <i data-feather="file"></i> Lihat
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
-                                        @endif
+                                            <!-- MODAL GAMBAR DISPOSISI-->
+                                            <div class="modal fade" id="dispo{{ $d->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-scrollable">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalScrollableTitle">Dokumen
+                                                                Disposisi</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{-- ambil gambar dari public --}}
+                                                            <img class="img-fluid" alt=""
+                                                                src="{{ asset('/disposisi/' . $d->institusi . '/' . $d->surat_id . '/' . $d->dokumen) }}"
+                                                                width="100%">
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-primary"
+                                                                data-bs-dismiss="modal">Selesai</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </tr>
                                 @endforeach
                             </tbody>

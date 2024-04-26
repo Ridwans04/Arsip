@@ -32,48 +32,45 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Form Pencarian
+                            </button>
                         </div>
                     @endif
                     <div class="card-body mt-2">
-                        <button class="btn btn-secondary" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            Form Pencarian
-                        </button>
                         <div class="collapse" id="collapseExample">
-                            <div class="d-flex p-1">
-                                <div class="row">
-                                    <div class="col-md-6 col-12">
-                                        <div class="mb-1">
-                                            <label class="form-label" for="nomor_surat">Nomor Surat</label>
-                                            <input type="text" id="nomor_surat" class="form-control"
-                                                oninput="cari_data('nomor_surat','{{ $institusi }}')"
-                                                placeholder="Masukkan Nomor dokumen" name="nomor_surat" />
-                                        </div>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="nomor_surat">Nomor Surat</label>
+                                        <input type="text" id="nomor_surat" class="form-control"
+                                            oninput="cari_data('nomor_surat','{{ $institusi }}')"
+                                            placeholder="Masukkan Nomor dokumen" name="nomor_surat" />
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="mb-1">
-                                            <label class="form-label" for="tanggal">Tanggal</label>
-                                            <input type="text" name="tanggal" id="tanggal" class="form-control"
-                                                oninput="cari_data('tanggal_arsip','{{ $institusi }}')"
-                                                placeholder="Tahun-Bulan-Hari" />
-                                        </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="tanggal_arsip">Tanggal</label>
+                                        <input type="text" id="tanggal_arsip" class="form-control flatpickr-basic"
+                                            oninput="cari_data('tanggal_arsip','{{ $institusi }}')"
+                                            placeholder="Tahun-Bulan-Hari" />
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="mb-1">
-                                            <label class="form-label" for="tujuan_surat">Kode Arsip</label>
-                                            <input type="text" id="tujuan_surat" class="form-control" name="tujuan_surat"
-                                                oninput="cari_data('kode_arsip','{{ $institusi }}')"
-                                                placeholder="Tulis Disini" />
-                                        </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="kode_arsip">Kode Arsip</label>
+                                        <input type="text" id="kode_arsip" class="form-control" 
+                                        oninput="cari_data('kode_arsip','{{ $institusi }}')"
+                                            placeholder="Tulis Disini" />
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="mb-1">
-                                            <label class="form-label" for="perihal">Masa</label>
-                                            <input type="text" id="masa" class="form-control" name="perihal"
-                                                placeholder="Tulis Disini"
-                                                oninput="cari_data('masa_penyimpanan','{{ $institusi }}')" />
-                                        </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="masa_penyimpanan">Masa</label>
+                                        <input type="text" id="masa_penyimpanan" class="form-control"
+                                            placeholder="Tulis Disini"
+                                            oninput="cari_data('masa_penyimpanan','{{ $institusi }}')" />
                                     </div>
                                 </div>
                             </div>
@@ -95,19 +92,20 @@
                                         <h1 class="mb-1">Detail dan Edit Data Arsip</h1>
                                         <p>Update data arsip jika diperlukan</p>
                                     </div>
-                                    <form onsubmit="event.preventDefault(),update_data(this)" id="update_arsip" class="row gy-1 pt-75">
+                                    <form onsubmit="event.preventDefault(),update_data(this)" id="update_arsip"
+                                        class="row gy-1 pt-75">
                                         <input type="hidden" name="id_arsip" id="id_arsip">
                                         <div class="col-12 col-md-4">
-                                            <label class="form-label">Kode Arsip</label>
-                                            <input type="text" id="kode_arsip" name="kode_arsip" class="form-control"  />
+                                            <label class="form-label" for="kode">Kode Arsip</label>
+                                            <input type="text" id="kode" name="kode" class="form-control" />
                                         </div>
                                         <div class="col-12 col-md-4">
-                                            <label class="form-label">Tanggal Arsip</label>
-                                            <input type="text" id="tgl_arsip" name="tgl_arsip" class="form-control"  />
+                                            <label class="form-label" for="tgl_arsip">Tanggal Arsip</label>
+                                            <input type="text" id="tgl_arsip" name="tgl_arsip" class="form-control flatpickr-basic" />
                                         </div>
                                         <div class="col-12 col-md-4">
-                                            <label class="form-label">Masa Penyimpanan</label>
-                                            <input type="text" id="masa_arsip" name="masa_arsip" class="form-control"  />
+                                            <label class="form-label" for="masa_arsip">Masa Penyimpanan</label>
+                                            <input type="text" id="masa_arsip" name="masa_arsip" class="form-control" />
                                         </div>
                                         <div class="col-12 text-center mt-2 pt-50">
                                             <button type="submit" class="btn btn-primary me-1">Perbarui</button>
