@@ -191,8 +191,8 @@
 
         // CARI DATA ARSIP UMUM
         function cari_data(name, institusi) {
-            var value = $('#' + name).val();
-            var nama_surat = $('#nama_surat').val();
+            let value = $('#' + name).val();
+            let nama_surat = $('#nama_surat').val();
             
             if (!nama_surat) {
                 ErrorMsg('Pilih Surat Dahulu');
